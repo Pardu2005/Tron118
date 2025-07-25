@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TRON Assistant</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-900 text-white min-h-screen flex flex-col">
+    <header class="bg-gray-800 p-4 flex justify-between items-center">
+        <div class="flex items-center">
+            <div class="w-12 h-12 bg-blue-500 rounded-full mr-4"></div>
+            <div>
+                <h1 class="text-2xl font-bold">TRON Assistant</h1>
+                <p class="text-gray-400">AI-Powered Industrial Solution Platform</p>
+            </div>
+        </div>
+        <div class="flex items-center gap-4">
+            <label class="flex items-center">
+                <input type="radio" name="input-mode" value="text" class="mr-2" checked> Text
+            </label>
+            <label class="flex items-center">
+                <input type="radio" name="input-mode" value="speech" class="mr-2"> Speech
+            </label>
+            <label class="flex items-center">
+                <input type="radio" name="input-mode" value="hybrid" class="mr-2"> Hybrid
+            </label>
+            <span class="bg-green-500 text-white px-2 py-1 rounded">Online</span>
+        </div>
+    </header>
+
+    <main class="flex-grow p-6">
+        <div class="max-w-4xl mx-auto grid gap-6">
+            <div class="p-4 border border-gray-600 rounded">
+                <h3 class="text-lg font-semibold mb-2">AI Service Modules</h3>
+                <div class="flex flex-wrap gap-4">
+                    <label class="flex items-center">
+                        <input type="radio" name="mode" value="quiz" class="mr-2"> Quiz
+                    </label>
+                    <label class="flex items-center">
+                        <input type="radio" name="mode" value="doubt" class="mr-2"> Solver
+                    </label>
+                    <label class="flex items-center">
+                        <input type="radio" name="mode" value="code" class="mr-2"> Debug
+                    </label>
+                    <label class="flex items-center">
+                        <input type="radio" name="mode" value="resume" class="mr-2"> Resume
+                    </label>
+                </div>
+            </div>
+
+            <div class="p-4 border border-gray-600 rounded">
+                <h3 class="text-lg font-semibold mb-2">Input Interface</h3>
+                <textarea id="query-input" class="w-full p-2 border border-gray-500 rounded bg-gray-700 text-white" rows="4" placeholder="Enter your query here"></textarea>
+            </div>
+
+            <div class="p-4 border border-gray-600 rounded">
+                <h3 class="text-lg font-semibold mb-2">Action Controls</h3>
+                <div class="flex flex-wrap gap-2">
+                    <button id="execute-btn" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Execute</button>
+                    <button id="voice-input-btn" class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">Voice Input</button>
+                    <button id="stop-listen-btn" class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700">Stop Listen</button>
+                    <button id="read-output-btn" class="px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700">Read Output</button>
+                    <button id="upload-file-btn" class="px-4 py-2 bg-yellow-600 text-white rounded hover:bg-yellow-700">Upload File</button>
+                </div>
+            </div>
+
+            <div id="response-output" class="p-4 border border-gray-600 rounded">
+                <h3 class="text-lg font-semibold mb-2">AI Response Output</h3>
+                <div class="text-gray-300">
+                    <p>Welcome to TRON Assistant</p>
+                    <p>Select a service module and enter your query to begin</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const executeBtn = document.getElementById('execute-btn');
+        const voiceInputBtn = document.getElementById('voice-input-btn');
+        const stopListenBtn = document.getElementById('stop-listen-btn');
+        const readOutputBtn = document.getElementById('read-output-btn');
+        const uploadFileBtn = document.getElementById('upload-file-btn');
+        const queryInput = document.getElementById('query-input');
+        const responseOutput = document.getElementById('response-output');
+        const modeRadios = document.getElementsByName('mode');
+        const inputModeRadios = document.getElementsByName('input-mode');
+
+        const getSelectedMode = () => {
+            for (const radio of modeRadios) {
+                if (radio.checked) return radio.value;
+            }
+            return null;
+        };
+
+        const getSelectedInputMode = () => {
+            for (const radio of inputModeRadios) {
+                if (radio.checked) return radio.value;
+            }
+            return 'text';
+        };
+
+        const displayResponse = (data) => {
+            if (data.status === 'success') {
+                responseOutput.innerHTML = data.response || `<div class="text-green-500">${data.message || 'Operation completed successfully'}</div>`;
+            } else {
+                responseOutput.innerHTML = `<div class="text-red-500">Error: ${data.error || 'Unknown error occurred'}</div>`;
+            }
+        };
+
+        const sendQuery = async (query, mode, inputMode) => {
+            try {
+                responseOutput.innerHTML = '<div class="text-gray-400">Processing...</div>';
+                const response = await fetch('/api/process', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ mode, query, inputMode })
+                });
+                const data = await response.json();
+                displayResponse(data);
+            } catch (error) {
+                console.error('Error:', error);
+                responseOutput.innerHTML = `<div class="text-red-500">Error: Failed to communicate with server</div>`;
+            }
+        };
+
+        executeBtn.addEventListener('click', () => {
+            const query = queryInput.value.trim();
+            const mode = getSelectedMode();
+            const inputMode = getSelectedInputMode();
+            if (!mode) {
+                responseOutput.innerHTML = '<div class="text-red-500">Please select a service module.</div>';
+                return;
+            }
+            if (!query && mode !== 'resume') {
+                responseOutput.innerHTML = '<div class="text-red-500">Please enter a query.</div>';
+                return;
+            }
+            sendQuery(query, mode, inputMode);
+        });
+
+        voiceInputBtn.addEventListener('click', async () => {
+            try {
+                responseOutput.innerHTML = '<div class="text-gray-400">Listening...</div>';
+                const response = await fetch('/api/speech/listen', { method: 'POST' });
+                const data = await response.json();
+                if (data.status === 'success') {
+                    queryInput.value = data.text;
+                    responseOutput.innerHTML = '<div class="text-gray-400">Speech transcribed. Click Execute to process.</div>';
+                } else {
+                    responseOutput.innerHTML = `<div class="text-red-500">Error: ${data.error}</div>`;
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                responseOutput.innerHTML = `<div class="text-red-500">Error: Failed to transcribe speech</div>`;
+            }
+        });
+
+        stopListenBtn.addEventListener('click', async () => {
+            try {
+                const response = await fetch('/api/speech/stop', { method: 'POST' });
+                const data = await response.json();
+                responseOutput.innerHTML = `<div class="text-gray-400">${data.message}</div>`;
+            } catch (error) {
+                console.error('Error:', error);
+                responseOutput.innerHTML = `<div class="text-red-500">Error: Failed to stop speech</div>`;
+            }
+        });
+
+        readOutputBtn.addEventListener('click', async () => {
+            const text = responseOutput.innerText.trim();
+            if (!text) {
+                responseOutput.innerHTML = '<div class="text-red-500">No output to read.</div>';
+                return;
+            }
+            try {
+                const response = await fetch('/api/speech/speak', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ text })
+                });
+                const data = await response.json();
+                responseOutput.innerHTML = `<div class="text-gray-400">${data.message}</div>`;
+            } catch (error) {
+                console.error('Error:', error);
+                responseOutput.innerHTML = `<div class="text-red-500">Error: Failed to initiate speech</div>`;
+            }
+        });
+
+        uploadFileBtn.addEventListener('click', async () => {
+            const fileInput = document.createElement('input');
+            fileInput.type = 'file';
+            fileInput.accept = '.pdf,.doc,.docx';
+            fileInput.onchange = async (event) => {
+                const file = event.target.files[0];
+                if (!file) {
+                    responseOutput.innerHTML = '<div class="text-red-500">No file selected.</div>';
+                    return;
+                }
+                const formData = new FormData();
+                formData.append('file', file);
+                try {
+                    responseOutput.innerHTML = '<div class="text-gray-400">Uploading file...</div>';
+                    const response = await fetch('/api/upload', {
+                        method: 'POST',
+                        body: formData
+                    });
+                    const data = await response.json();
+                    console.log('Upload response:', data); // Debug log
+                    if (data.status === 'success') {
+                        responseOutput.innerHTML = `<div class="text-green-500">${data.message}</div>`;
+                        const mode = getSelectedMode();
+                        if (mode === 'resume') {
+                            responseOutput.innerHTML = '<div class="text-gray-400">Processing resume...</div>';
+                            await sendQuery('', 'resume', 'text');
+                        }
+                    } else {
+                        responseOutput.innerHTML = `<div class="text-red-500">Error: ${data.error || 'Failed to upload file'}</div>`;
+                    }
+                } catch (error) {
+                    console.error('Upload error:', error);
+                    responseOutput.innerHTML = `<div class="text-red-500">Error: Failed to communicate with server during file upload</div>`;
+                }
+            };
+            fileInput.click();
+        });
+    });
+    </script>
+</body>
+</html>

@@ -1,0 +1,241 @@
+2025-07-24 12:50:41,638 - INFO - Starting Flask server
+2025-07-24 12:50:41,669 - WARNING -  * Debugger is active!
+2025-07-24 12:50:41,685 - INFO -  * Debugger PIN: 123-078-886
+2025-07-24 12:50:41,801 - INFO - Starting Flask server
+2025-07-24 12:50:41,812 - WARNING -  * Debugger is active!
+2025-07-24 12:50:41,816 - INFO -  * Debugger PIN: 123-078-886
+2025-07-24 12:54:50,709 - INFO - Starting Flask server
+2025-07-24 12:54:50,728 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2025-07-24 12:54:50,728 - INFO - [33mPress CTRL+C to quit[0m
+2025-07-24 12:54:50,731 - INFO -  * Restarting with stat
+2025-07-24 12:54:55,215 - INFO - Starting Flask server
+2025-07-24 12:54:55,228 - WARNING -  * Debugger is active!
+2025-07-24 12:54:55,234 - INFO -  * Debugger PIN: 123-078-886
+2025-07-24 12:54:59,966 - DEBUG - Attempting to serve index.html from C:\Users\pardu\PycharmProjects\TRON\index.html
+2025-07-24 12:54:59,968 - INFO - 127.0.0.1 - - [24/Jul/2025 12:54:59] "GET / HTTP/1.1" 200 -
+2025-07-24 12:59:52,608 - DEBUG - Attempting to serve index.html from C:\Users\pardu\PycharmProjects\TRON\index.html
+2025-07-24 12:59:52,611 - INFO - 127.0.0.1 - - [24/Jul/2025 12:59:52] "[36mGET / HTTP/1.1[0m" 304 -
+2025-07-24 16:42:07,085 - INFO - Google Generative AI configured successfully.
+2025-07-24 16:42:07,188 - INFO - Imported existing <module 'comtypes.gen' from 'C:\\Users\\pardu\\PycharmProjects\\TRON\\.venv\\Lib\\site-packages\\comtypes\\gen\\__init__.py'>
+2025-07-24 16:42:07,189 - INFO - Using writeable comtypes cache directory: 'C:\Users\pardu\PycharmProjects\TRON\.venv\Lib\site-packages\comtypes\gen'
+2025-07-24 16:42:07,438 - INFO - pyttsx3 voice setup complete.
+2025-07-24 16:42:08,629 - INFO - Whisper model 'base' loaded successfully.
+2025-07-24 16:42:08,629 - INFO - Gemini GenerativeModel and chat initialized.
+2025-07-24 16:42:08,634 - INFO - Starting TRON Assistant Flask server...
+2025-07-24 16:42:08,634 - INFO - Frontend should be accessible at http://localhost:5000
+2025-07-24 16:42:08,651 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.155.89.128:5000
+2025-07-24 16:42:08,651 - INFO - [33mPress CTRL+C to quit[0m
+2025-07-24 16:42:14,314 - INFO - Serving index.html
+2025-07-24 16:42:14,317 - INFO - 127.0.0.1 - - [24/Jul/2025 16:42:14] "GET / HTTP/1.1" 200 -
+2025-07-24 16:42:24,474 - INFO - Serving index.html
+2025-07-24 16:42:24,477 - INFO - 10.155.89.128 - - [24/Jul/2025 16:42:24] "GET / HTTP/1.1" 200 -
+2025-07-24 16:42:26,526 - INFO - 10.155.89.128 - - [24/Jul/2025 16:42:26] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-07-24 16:51:27,603 - INFO - Serving index.html
+2025-07-24 16:51:27,606 - INFO - 127.0.0.1 - - [24/Jul/2025 16:51:27] "[36mGET / HTTP/1.1[0m" 304 -
+2025-07-24 16:51:34,873 - INFO - Serving index.html
+2025-07-24 16:51:34,874 - INFO - 127.0.0.1 - - [24/Jul/2025 16:51:34] "GET / HTTP/1.1" 200 -
+2025-07-25 11:03:31,705 - INFO - Google Generative AI configured successfully.
+2025-07-25 11:03:31,799 - INFO - Imported existing <module 'comtypes.gen' from 'C:\\Users\\pardu\\PycharmProjects\\TRON\\.venv\\Lib\\site-packages\\comtypes\\gen\\__init__.py'>
+2025-07-25 11:03:31,799 - INFO - Using writeable comtypes cache directory: 'C:\Users\pardu\PycharmProjects\TRON\.venv\Lib\site-packages\comtypes\gen'
+2025-07-25 11:03:32,050 - INFO - pyttsx3 voice setup complete.
+2025-07-25 11:03:33,099 - INFO - Whisper model 'base' loaded successfully.
+2025-07-25 11:03:33,099 - INFO - Gemini GenerativeModel and chat initialized.
+2025-07-25 11:03:33,103 - INFO - Starting TRON Assistant Flask server...
+2025-07-25 11:03:33,103 - INFO - Frontend should be accessible at http://localhost:5000
+2025-07-25 11:03:33,110 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.155.89.129:5000
+2025-07-25 11:03:33,110 - INFO - [33mPress CTRL+C to quit[0m
+2025-07-25 11:03:37,683 - INFO - Serving index.html
+2025-07-25 11:03:37,685 - INFO - 127.0.0.1 - - [25/Jul/2025 11:03:37] "GET / HTTP/1.1" 200 -
+2025-07-25 11:03:39,071 - INFO - 127.0.0.1 - - [25/Jul/2025 11:03:39] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-07-25 11:04:45,502 - INFO - Processing request - Mode: quiz, Query: design a small quiz on "gdp" of a country..., Input Mode: text
+2025-07-25 11:04:51,325 - INFO - History saved successfully.
+2025-07-25 11:04:51,327 - INFO - Successfully processed Quiz Generator request. Final response length: 2495.
+2025-07-25 11:04:51,327 - INFO - 127.0.0.1 - - [25/Jul/2025 11:04:51] "POST /api/process HTTP/1.1" 200 -
+2025-07-25 11:06:24,342 - INFO - Processing request - Mode: doubt, Query: explain about the intelligence OCR system..., Input Mode: text
+2025-07-25 11:06:27,298 - INFO - History saved successfully.
+2025-07-25 11:06:27,298 - INFO - Successfully processed Doubt Solver request. Final response length: 1494.
+2025-07-25 11:06:27,298 - INFO - 127.0.0.1 - - [25/Jul/2025 11:06:27] "POST /api/process HTTP/1.1" 200 -
+2025-07-25 11:07:02,917 - INFO - Processing request - Mode: code, Query: write a c language code for palindrome numbers..., Input Mode: text
+2025-07-25 11:07:09,235 - INFO - History saved successfully.
+2025-07-25 11:07:09,235 - INFO - Successfully processed Code Debugger request. Final response length: 2736.
+2025-07-25 11:07:09,245 - INFO - 127.0.0.1 - - [25/Jul/2025 11:07:09] "POST /api/process HTTP/1.1" 200 -
+2025-07-25 11:07:22,179 - INFO - Processing request - Mode: code, Query: write a python language code for palindrome numbers..., Input Mode: text
+2025-07-25 11:07:27,033 - INFO - History saved successfully.
+2025-07-25 11:07:27,033 - INFO - Successfully processed Code Debugger request. Final response length: 2438.
+2025-07-25 11:07:27,033 - INFO - 127.0.0.1 - - [25/Jul/2025 11:07:27] "POST /api/process HTTP/1.1" 200 -
+2025-07-25 11:07:44,855 - INFO - File uploaded successfully: Raju's resume (1) (1).pdf
+2025-07-25 11:07:45,448 - INFO - Text extracted from resume file: Raju's resume (1) (1).pdf
+2025-07-25 11:07:45,448 - INFO - 127.0.0.1 - - [25/Jul/2025 11:07:45] "POST /api/upload HTTP/1.1" 200 -
+2025-07-25 11:07:45,456 - INFO - Processing request - Mode: resume, Query: ..., Input Mode: text
+2025-07-25 11:07:47,002 - INFO - History saved successfully.
+2025-07-25 11:07:47,002 - INFO - Successfully processed Resume Analyzer request. Final response length: 143.
+2025-07-25 11:07:47,004 - INFO - 127.0.0.1 - - [25/Jul/2025 11:07:47] "POST /api/process HTTP/1.1" 200 -
+2025-07-25 11:08:16,437 - INFO - Processing request - Mode: resume, Query: analyze the resume and give any corrections if needed..., Input Mode: text
+2025-07-25 11:08:23,791 - INFO - History saved successfully.
+2025-07-25 11:08:23,791 - INFO - Successfully processed Resume Analyzer request. Final response length: 3987.
+2025-07-25 11:08:23,791 - INFO - 127.0.0.1 - - [25/Jul/2025 11:08:23] "POST /api/process HTTP/1.1" 200 -
+2025-07-25 11:14:22,064 - INFO - Google Generative AI configured successfully.
+2025-07-25 11:14:22,121 - INFO - Imported existing <module 'comtypes.gen' from 'C:\\Users\\pardu\\PycharmProjects\\TRON\\.venv\\Lib\\site-packages\\comtypes\\gen\\__init__.py'>
+2025-07-25 11:14:22,122 - INFO - Using writeable comtypes cache directory: 'C:\Users\pardu\PycharmProjects\TRON\.venv\Lib\site-packages\comtypes\gen'
+2025-07-25 11:14:22,234 - INFO - pyttsx3 voice setup complete.
+2025-07-25 11:14:23,010 - INFO - Whisper model 'base' loaded successfully.
+2025-07-25 11:14:23,010 - INFO - Gemini GenerativeModel and chat initialized.
+2025-07-25 11:14:23,013 - INFO - Starting TRON Assistant Flask server...
+2025-07-25 11:14:23,013 - INFO - Frontend should be accessible at http://localhost:5000
+2025-07-25 11:14:23,019 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.155.89.129:5000
+2025-07-25 11:14:23,019 - INFO - [33mPress CTRL+C to quit[0m
+2025-07-25 11:14:25,531 - INFO - Serving index.html
+2025-07-25 11:14:25,533 - INFO - 10.155.89.129 - - [25/Jul/2025 11:14:25] "GET / HTTP/1.1" 200 -
+2025-07-25 11:14:26,639 - INFO - 10.155.89.129 - - [25/Jul/2025 11:14:26] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-07-25 11:17:30,410 - INFO - Google Generative AI configured successfully.
+2025-07-25 11:17:30,464 - INFO - Imported existing <module 'comtypes.gen' from 'C:\\Users\\pardu\\PycharmProjects\\TRON\\.venv\\Lib\\site-packages\\comtypes\\gen\\__init__.py'>
+2025-07-25 11:17:30,465 - INFO - Using writeable comtypes cache directory: 'C:\Users\pardu\PycharmProjects\TRON\.venv\Lib\site-packages\comtypes\gen'
+2025-07-25 11:17:30,573 - INFO - pyttsx3 voice setup complete.
+2025-07-25 11:17:31,349 - INFO - Whisper model 'base' loaded successfully.
+2025-07-25 11:17:31,349 - INFO - Gemini GenerativeModel and chat initialized.
+2025-07-25 11:17:31,353 - INFO - Starting TRON Assistant Flask server...
+2025-07-25 11:17:31,353 - INFO - Frontend should be accessible at http://localhost:5000
+2025-07-25 11:17:31,360 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.155.89.129:5000
+2025-07-25 11:17:31,360 - INFO - [33mPress CTRL+C to quit[0m
+2025-07-25 11:17:33,505 - INFO - Serving index.html
+2025-07-25 11:17:33,508 - INFO - 127.0.0.1 - - [25/Jul/2025 11:17:33] "GET / HTTP/1.1" 200 -
+2025-07-25 11:17:34,079 - INFO - 127.0.0.1 - - [25/Jul/2025 11:17:34] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-07-25 11:18:28,159 - INFO - Processing request - Mode: quiz, Query: generate a quiz based on india states and countries..., Input Mode: text
+2025-07-25 11:18:30,437 - INFO - History saved successfully.
+2025-07-25 11:18:30,437 - INFO - Successfully processed Quiz Generator request. Final response length: 799.
+2025-07-25 11:18:30,437 - INFO - 127.0.0.1 - - [25/Jul/2025 11:18:30] "POST /api/process HTTP/1.1" 200 -
+2025-07-25 11:19:07,704 - INFO - Processing request - Mode: doubt, Query: explain about artificial intelligence..., Input Mode: text
+2025-07-25 11:19:10,154 - INFO - History saved successfully.
+2025-07-25 11:19:10,154 - INFO - Successfully processed Doubt Solver request. Final response length: 1185.
+2025-07-25 11:19:10,156 - INFO - 127.0.0.1 - - [25/Jul/2025 11:19:10] "POST /api/process HTTP/1.1" 200 -
+2025-07-25 11:19:46,284 - INFO - Processing request - Mode: code, Query: genrate the prime numbers code in python..., Input Mode: text
+2025-07-25 11:19:53,090 - INFO - History saved successfully.
+2025-07-25 11:19:53,090 - INFO - Successfully processed Code Debugger request. Final response length: 3184.
+2025-07-25 11:19:53,096 - INFO - 127.0.0.1 - - [25/Jul/2025 11:19:53] "POST /api/process HTTP/1.1" 200 -
+2025-07-25 11:20:31,988 - INFO - File uploaded successfully: Raju's resume (1) (1).pdf
+2025-07-25 11:20:32,602 - INFO - Text extracted from resume file: Raju's resume (1) (1).pdf
+2025-07-25 11:20:32,602 - INFO - 127.0.0.1 - - [25/Jul/2025 11:20:32] "POST /api/upload HTTP/1.1" 200 -
+2025-07-25 11:20:32,609 - INFO - Processing request - Mode: resume, Query: ..., Input Mode: text
+2025-07-25 11:20:37,400 - INFO - History saved successfully.
+2025-07-25 11:20:37,400 - INFO - Successfully processed Resume Analyzer request. Final response length: 2699.
+2025-07-25 11:20:37,416 - INFO - 127.0.0.1 - - [25/Jul/2025 11:20:37] "POST /api/process HTTP/1.1" 200 -
+2025-07-25 11:20:54,421 - INFO - Processing request - Mode: resume, Query: rectify the resume rta score and errors..., Input Mode: text
+2025-07-25 11:21:02,146 - INFO - History saved successfully.
+2025-07-25 11:21:02,146 - INFO - Successfully processed Resume Analyzer request. Final response length: 4643.
+2025-07-25 11:21:02,148 - INFO - 127.0.0.1 - - [25/Jul/2025 11:21:02] "POST /api/process HTTP/1.1" 200 -
+2025-07-25 11:23:54,937 - INFO - Serving index.html
+2025-07-25 11:23:54,941 - INFO - 10.155.89.120 - - [25/Jul/2025 11:23:54] "GET / HTTP/1.1" 200 -
+2025-07-25 11:23:55,933 - INFO - 10.155.89.120 - - [25/Jul/2025 11:23:55] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-07-25 11:28:27,468 - INFO - Google Generative AI configured successfully.
+2025-07-25 11:28:27,523 - INFO - Imported existing <module 'comtypes.gen' from 'C:\\Users\\pardu\\PycharmProjects\\TRON\\.venv\\Lib\\site-packages\\comtypes\\gen\\__init__.py'>
+2025-07-25 11:28:27,523 - INFO - Using writeable comtypes cache directory: 'C:\Users\pardu\PycharmProjects\TRON\.venv\Lib\site-packages\comtypes\gen'
+2025-07-25 11:28:27,630 - INFO - pyttsx3 voice setup complete.
+2025-07-25 11:28:28,387 - INFO - Whisper model 'base' loaded successfully.
+2025-07-25 11:28:28,388 - INFO - Gemini GenerativeModel and chat initialized.
+2025-07-25 11:28:28,392 - INFO - Starting TRON Assistant Flask server...
+2025-07-25 11:28:28,392 - INFO - Frontend should be accessible at http://localhost:5000
+2025-07-25 11:28:28,399 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.155.89.129:5000
+2025-07-25 11:28:28,399 - INFO - [33mPress CTRL+C to quit[0m
+2025-07-25 11:28:33,845 - INFO - Serving index.html
+2025-07-25 11:28:33,848 - INFO - 127.0.0.1 - - [25/Jul/2025 11:28:33] "GET / HTTP/1.1" 200 -
+2025-07-25 11:28:35,558 - INFO - 127.0.0.1 - - [25/Jul/2025 11:28:35] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-07-25 11:34:25,681 - INFO - Google Generative AI configured successfully.
+2025-07-25 11:34:25,802 - INFO - Imported existing <module 'comtypes.gen' from 'C:\\Users\\pardu\\PycharmProjects\\TRON\\.venv\\Lib\\site-packages\\comtypes\\gen\\__init__.py'>
+2025-07-25 11:34:25,803 - INFO - Using writeable comtypes cache directory: 'C:\Users\pardu\PycharmProjects\TRON\.venv\Lib\site-packages\comtypes\gen'
+2025-07-25 11:34:25,928 - INFO - pyttsx3 voice setup complete.
+2025-07-25 11:34:26,750 - INFO - Whisper model 'base' loaded successfully.
+2025-07-25 11:34:26,750 - INFO - Gemini GenerativeModel and chat initialized.
+2025-07-25 11:34:26,753 - INFO - Starting TRON Assistant Flask server...
+2025-07-25 11:34:26,754 - INFO - Frontend should be accessible at http://localhost:5000
+2025-07-25 11:34:26,758 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.155.89.129:5000
+2025-07-25 11:34:26,758 - INFO - [33mPress CTRL+C to quit[0m
+2025-07-25 11:34:30,403 - INFO - Serving index.html
+2025-07-25 11:34:30,407 - INFO - 10.155.89.129 - - [25/Jul/2025 11:34:30] "GET / HTTP/1.1" 200 -
+2025-07-25 11:34:32,566 - INFO - 10.155.89.129 - - [25/Jul/2025 11:34:32] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-07-25 11:34:55,377 - INFO - Processing request - Mode: quiz, Query: generate a quiz on indian railways..., Input Mode: text
+2025-07-25 11:34:58,389 - INFO - History saved successfully.
+2025-07-25 11:34:58,389 - INFO - Successfully processed Quiz Generator request. Final response length: 1272.
+2025-07-25 11:34:58,391 - INFO - 10.155.89.129 - - [25/Jul/2025 11:34:58] "POST /api/process HTTP/1.1" 200 -
+2025-07-25 11:36:04,181 - INFO - Processing request - Mode: doubt, Query: explain about the AURDINO BOARD..., Input Mode: text
+2025-07-25 11:36:06,720 - INFO - History saved successfully.
+2025-07-25 11:36:06,720 - INFO - Successfully processed Doubt Solver request. Final response length: 1234.
+2025-07-25 11:36:06,723 - INFO - 10.155.89.129 - - [25/Jul/2025 11:36:06] "POST /api/process HTTP/1.1" 200 -
+2025-07-25 11:36:42,694 - INFO - Processing request - Mode: code, Query: generate a sample code for printing pyramid using stars in java..., Input Mode: text
+2025-07-25 11:36:47,397 - INFO - History saved successfully.
+2025-07-25 11:36:47,397 - INFO - Successfully processed Code Debugger request. Final response length: 2273.
+2025-07-25 11:36:47,397 - INFO - 10.155.89.129 - - [25/Jul/2025 11:36:47] "POST /api/process HTTP/1.1" 200 -
+2025-07-25 11:37:01,619 - INFO - File uploaded successfully: Raju's resume (1) (1).pdf
+2025-07-25 11:37:03,136 - INFO - Text extracted from resume file: Raju's resume (1) (1).pdf
+2025-07-25 11:37:03,136 - INFO - 10.155.89.129 - - [25/Jul/2025 11:37:03] "POST /api/upload HTTP/1.1" 200 -
+2025-07-25 11:38:40,836 - INFO - Processing request - Mode: resume, Query: analyze the uploaded resume..., Input Mode: text
+2025-07-25 11:38:47,355 - INFO - History saved successfully.
+2025-07-25 11:38:47,358 - INFO - Successfully processed Resume Analyzer request. Final response length: 4462.
+2025-07-25 11:38:47,360 - INFO - 10.155.89.129 - - [25/Jul/2025 11:38:47] "POST /api/process HTTP/1.1" 200 -
+2025-07-25 11:39:42,833 - INFO - File uploaded successfully: PavanPrasannaSaitejaSurampalliResume.pdf
+2025-07-25 11:39:43,064 - INFO - Text extracted from resume file: PavanPrasannaSaitejaSurampalliResume.pdf
+2025-07-25 11:39:43,064 - INFO - 10.155.89.129 - - [25/Jul/2025 11:39:43] "POST /api/upload HTTP/1.1" 200 -
+2025-07-25 11:41:49,472 - INFO - Processing request - Mode: resume, Query: analyze the given resume and tell me the ATA score..., Input Mode: text
+2025-07-25 11:41:55,436 - INFO - History saved successfully.
+2025-07-25 11:41:55,437 - INFO - Successfully processed Resume Analyzer request. Final response length: 3617.
+2025-07-25 11:41:55,438 - INFO - 10.155.89.129 - - [25/Jul/2025 11:41:55] "POST /api/process HTTP/1.1" 200 -
+2025-07-25 11:47:01,526 - INFO - File uploaded successfully: teja resume (1).pdf
+2025-07-25 11:47:01,600 - INFO - Text extracted from resume file: teja resume (1).pdf
+2025-07-25 11:47:01,600 - INFO - 10.155.89.129 - - [25/Jul/2025 11:47:01] "POST /api/upload HTTP/1.1" 200 -
+2025-07-25 12:07:37,828 - INFO - Google Generative AI configured successfully.
+2025-07-25 12:07:37,884 - INFO - Imported existing <module 'comtypes.gen' from 'C:\\Users\\pardu\\PycharmProjects\\TRON\\.venv\\Lib\\site-packages\\comtypes\\gen\\__init__.py'>
+2025-07-25 12:07:37,884 - INFO - Using writeable comtypes cache directory: 'C:\Users\pardu\PycharmProjects\TRON\.venv\Lib\site-packages\comtypes\gen'
+2025-07-25 12:07:37,994 - INFO - pyttsx3 voice setup complete.
+2025-07-25 12:07:38,728 - INFO - Whisper model 'base' loaded successfully.
+2025-07-25 12:07:38,729 - INFO - Gemini GenerativeModel and chat initialized.
+2025-07-25 12:07:38,731 - INFO - Starting TRON Assistant Flask server...
+2025-07-25 12:07:38,732 - INFO - Frontend should be accessible at http://localhost:5000
+2025-07-25 12:07:38,737 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.155.89.129:5000
+2025-07-25 12:07:38,737 - INFO - [33mPress CTRL+C to quit[0m
+2025-07-25 12:07:44,238 - INFO - Serving index.html
+2025-07-25 12:07:44,242 - INFO - 127.0.0.1 - - [25/Jul/2025 12:07:44] "GET / HTTP/1.1" 200 -
+2025-07-25 12:07:44,763 - INFO - 127.0.0.1 - - [25/Jul/2025 12:07:44] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-07-25 12:07:58,416 - INFO - Processing request - Mode: quiz, Query: quiz on indian economy..., Input Mode: text
+2025-07-25 12:08:01,633 - INFO - History saved successfully.
+2025-07-25 12:08:01,633 - INFO - Successfully processed Quiz Generator request. Final response length: 1243.
+2025-07-25 12:08:01,633 - INFO - 127.0.0.1 - - [25/Jul/2025 12:08:01] "POST /api/process HTTP/1.1" 200 -
+2025-07-25 12:08:37,773 - INFO - Processing request - Mode: doubt, Query: explain about object detection..., Input Mode: text
+2025-07-25 12:08:40,907 - INFO - History saved successfully.
+2025-07-25 12:08:40,907 - INFO - Successfully processed Doubt Solver request. Final response length: 1551.
+2025-07-25 12:08:40,909 - INFO - 127.0.0.1 - - [25/Jul/2025 12:08:40] "POST /api/process HTTP/1.1" 200 -
+2025-07-25 12:09:24,178 - INFO - Processing request - Mode: code, Query: python code for adding 3 numbers..., Input Mode: text
+2025-07-25 12:09:28,719 - INFO - History saved successfully.
+2025-07-25 12:09:28,719 - INFO - Successfully processed Code Debugger request. Final response length: 1782.
+2025-07-25 12:09:28,719 - INFO - 127.0.0.1 - - [25/Jul/2025 12:09:28] "POST /api/process HTTP/1.1" 200 -
+2025-07-25 12:09:50,695 - INFO - File uploaded successfully: Raju's resume (1) (1).pdf
+2025-07-25 12:09:51,316 - INFO - Text extracted from resume file: Raju's resume (1) (1).pdf
+2025-07-25 12:09:51,316 - INFO - 127.0.0.1 - - [25/Jul/2025 12:09:51] "POST /api/upload HTTP/1.1" 200 -
+2025-07-25 12:09:51,325 - INFO - Processing request - Mode: resume, Query: ..., Input Mode: text
+2025-07-25 12:09:55,793 - INFO - History saved successfully.
+2025-07-25 12:09:55,795 - INFO - Successfully processed Resume Analyzer request. Final response length: 2521.
+2025-07-25 12:09:55,795 - INFO - 127.0.0.1 - - [25/Jul/2025 12:09:55] "POST /api/process HTTP/1.1" 200 -
+2025-07-25 12:10:22,930 - INFO - Processing request - Mode: resume, Query: get the highlights of resume..., Input Mode: text
+2025-07-25 12:10:26,986 - INFO - History saved successfully.
+2025-07-25 12:10:26,986 - INFO - Successfully processed Resume Analyzer request. Final response length: 2177.
+2025-07-25 12:10:26,986 - INFO - 127.0.0.1 - - [25/Jul/2025 12:10:26] "POST /api/process HTTP/1.1" 200 -
