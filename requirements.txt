@@ -52,7 +52,6 @@ pydantic==2.11.7
 pydantic_core==2.33.2
 pyparsing==3.2.3
 PyPDF2==3.0.1
-pypiwin32==223
 PySocks==1.7.1
 python-docx==1.2.0
 pyttsx3==2.98
