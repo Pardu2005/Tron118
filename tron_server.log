@@ -239,3 +239,54 @@
 2025-07-25 12:10:26,986 - INFO - History saved successfully.
 2025-07-25 12:10:26,986 - INFO - Successfully processed Resume Analyzer request. Final response length: 2177.
 2025-07-25 12:10:26,986 - INFO - 127.0.0.1 - - [25/Jul/2025 12:10:26] "POST /api/process HTTP/1.1" 200 -
+2025-07-25 12:44:35,421 - INFO - Google Generative AI configured successfully.
+2025-07-25 12:44:35,533 - INFO - Imported existing <module 'comtypes.gen' from 'C:\\Users\\pardu\\PycharmProjects\\TRON\\.venv\\Lib\\site-packages\\comtypes\\gen\\__init__.py'>
+2025-07-25 12:44:35,533 - INFO - Using writeable comtypes cache directory: 'C:\Users\pardu\PycharmProjects\TRON\.venv\Lib\site-packages\comtypes\gen'
+2025-07-25 12:44:35,882 - INFO - pyttsx3 voice setup complete.
+2025-07-25 12:44:38,344 - INFO - Whisper model 'base' loaded successfully.
+2025-07-25 12:44:38,347 - INFO - Gemini GenerativeModel and chat initialized.
+2025-07-25 12:44:38,357 - INFO - Starting TRON Assistant Flask server...
+2025-07-25 12:44:38,357 - INFO - Frontend should be accessible at http://localhost:5000
+2025-07-25 12:44:38,371 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.155.89.129:5000
+2025-07-25 12:44:38,371 - INFO - [33mPress CTRL+C to quit[0m
+2025-07-25 12:44:40,308 - INFO - Serving index.html
+2025-07-25 12:44:40,312 - INFO - 127.0.0.1 - - [25/Jul/2025 12:44:40] "[36mGET / HTTP/1.1[0m" 304 -
+2025-07-25 12:44:40,572 - INFO - 127.0.0.1 - - [25/Jul/2025 12:44:40] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-07-25 12:44:56,497 - INFO - Processing request - Mode: quiz, Query: generate a quiz on flutter..., Input Mode: text
+2025-07-25 12:44:59,760 - INFO - History saved successfully.
+2025-07-25 12:44:59,760 - INFO - Successfully processed Quiz Generator request. Final response length: 1427.
+2025-07-25 12:44:59,762 - INFO - 127.0.0.1 - - [25/Jul/2025 12:44:59] "POST /api/process HTTP/1.1" 200 -
+2025-07-25 12:45:28,783 - INFO - File uploaded successfully: Raju's resume (1) (1).pdf
+2025-07-25 12:45:29,415 - INFO - Text extracted from resume file: Raju's resume (1) (1).pdf
+2025-07-25 12:45:29,415 - INFO - 127.0.0.1 - - [25/Jul/2025 12:45:29] "POST /api/upload HTTP/1.1" 200 -
+2025-07-25 12:45:29,423 - INFO - Processing request - Mode: resume, Query: ..., Input Mode: text
+2025-07-25 12:45:34,786 - INFO - History saved successfully.
+2025-07-25 12:45:34,786 - INFO - Successfully processed Resume Analyzer request. Final response length: 2723.
+2025-07-25 12:45:34,786 - INFO - 127.0.0.1 - - [25/Jul/2025 12:45:34] "POST /api/process HTTP/1.1" 200 -
+2025-07-25 12:45:39,228 - INFO - Processing request - Mode: resume, Query: analyze the errors..., Input Mode: text
+2025-07-25 12:45:45,989 - INFO - History saved successfully.
+2025-07-25 12:45:45,989 - INFO - Successfully processed Resume Analyzer request. Final response length: 3568.
+2025-07-25 12:45:45,990 - INFO - 127.0.0.1 - - [25/Jul/2025 12:45:45] "POST /api/process HTTP/1.1" 200 -
+2025-07-25 12:45:57,429 - INFO - Initiating speech recognition via API.
+2025-07-25 12:45:57,430 - INFO - Listening for audio input...
+2025-07-25 12:46:00,941 - INFO - Audio recording finished. Transcribing...
+2025-07-25 12:46:08,904 - INFO - Transcribed text: viss viss into pretending good
+2025-07-25 12:46:08,904 - INFO - Speech transcribed: viss viss into pretending good...
+2025-07-25 12:46:08,904 - INFO - 127.0.0.1 - - [25/Jul/2025 12:46:08] "POST /api/speech/listen HTTP/1.1" 200 -
+2025-07-25 12:46:13,821 - INFO - Processing request - Mode: resume, Query: viss viss into pretending good..., Input Mode: hybrid
+2025-07-25 12:46:17,656 - INFO - History saved successfully.
+2025-07-25 12:46:17,656 - INFO - Successfully processed Resume Analyzer request. Final response length: 288.
+2025-07-25 12:46:17,660 - INFO - 127.0.0.1 - - [25/Jul/2025 12:46:17] "POST /api/process HTTP/1.1" 200 -
+2025-07-25 12:46:21,495 - INFO - Initiating speech recognition via API.
+2025-07-25 12:46:21,495 - INFO - Listening for audio input...
+2025-07-25 12:46:24,938 - INFO - Audio recording finished. Transcribing...
+2025-07-25 12:46:26,028 - INFO - Transcribed text: Tell me about artificial intelligence.
+2025-07-25 12:46:26,028 - INFO - Speech transcribed: Tell me about artificial intelligence....
+2025-07-25 12:46:26,028 - INFO - 127.0.0.1 - - [25/Jul/2025 12:46:26] "POST /api/speech/listen HTTP/1.1" 200 -
+2025-07-25 12:46:30,831 - INFO - Processing request - Mode: doubt, Query: Tell me about artificial intelligence...., Input Mode: hybrid
+2025-07-25 12:46:35,108 - INFO - History saved successfully.
+2025-07-25 12:46:35,108 - INFO - Successfully processed Doubt Solver request. Final response length: 1653.
+2025-07-25 12:46:35,110 - INFO - 127.0.0.1 - - [25/Jul/2025 12:46:35] "POST /api/process HTTP/1.1" 200 -
