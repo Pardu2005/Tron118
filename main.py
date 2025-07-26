@@ -337,7 +337,8 @@ class TRONAssistant:
             if '<li>' in content:
                 content = f'<ul class="list-disc list-inside mt-3 text-gray-200">{content}</ul>'
             content_parts = content.split('\n\n')
-            paragraphs = [f'<p class="mt-3 text-gray-200">{p.replace("\\n", "<br>")}</p>' for p in content_parts if p.strip()]
+            paragraphs = [f'<p class="mt-3 text-gray-200">{p.replace("\n", "<br>")}</p>' for p in content_parts if p.strip()]
+
 
             return ''.join(paragraphs)
         except Exception as e:
