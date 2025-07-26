@@ -330,16 +330,18 @@ class TRONAssistant:
 
     def _format_explanation_content(self, content: str) -> str:
         try:
-            content = re.sub(r'\*\*(.*?)\*\*', r'<strong class="text-purple-300">\1</strong>', content)
-            content = re.sub(r'\*(.*?)\*', r'<em class="text-purple-200">\1</em>', content)
-            content = re.sub(r'`(.*?)`', r'<code class="bg-gray-700 px-2 py-1 rounded text-purple-200">\1</code>', content)
-            content = re.sub(r'^- (.+)$', r'<li><p>\1</p></li>', content, flags=re.MULTILINE)
+            content = re.sub(r'\*\*(.*?)\*\*', r'<strong class="text-purple-300">\\1</strong>', content)
+            content = re.sub(r'\*(.*?)\*', r'<em class="text-purple-200">\\1</em>', content)
+            content = re.sub(r'`(.*?)`', r'<code class="bg-gray-700 px-2 py-1 rounded text-purple-200">\\1</code>', content)
+            content = re.sub(r'^- (.+)$', r'<li><p>\\1</p></li>', content, flags=re.MULTILINE)
             if '<li>' in content:
                 content = f'<ul class="list-disc list-inside mt-3 text-gray-200">{content}</ul>'
             content_parts = content.split('\n\n')
-            paragraphs = [f'<p class="mt-3 text-gray-200">{p.replace("\n", "<br>")}</p>' for p in content_parts if p.strip()]
-
-
+            paragraphs = []
+            for p in content_parts:
+                if p.strip():
+                    safe_p = p.replace("\n", "<br>")
+                    paragraphs.append(f'<p class="mt-3 text-gray-200">{safe_p}</p>')
             return ''.join(paragraphs)
         except Exception as e:
             logger.error(f"Error formatting explanation content: {e}", exc_info=True)
