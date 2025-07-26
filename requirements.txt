@@ -56,7 +56,6 @@ pypiwin32==223
 PySocks==1.7.1
 python-docx==1.2.0
 pyttsx3==2.98
-pywin32==310
 regex==2024.11.6
 requests==2.32.4
 requests-file==2.1.0
