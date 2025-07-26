@@ -1,6 +1,6 @@
 ﻿annotated-types==0.5.0
 beautifulsoup4==4.13.4
-blinker==1.8.2
+blinker==1.6.3
 cachetools==5.5.2
 certifi==2025.6.15
 cffi==1.17.1
