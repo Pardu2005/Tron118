@@ -699,19 +699,12 @@ if __name__ == "__main__":
     try:
         # Enhanced port configuration for Render deployment
         port = int(os.environ.get('PORT', 10000))
-
-        # Check if running on Render or other production environment
-        is_production = os.environ.get('RENDER') or os.environ.get('RAILWAY_ENVIRONMENT') or os.environ.get('HEROKU_APP_NAME')
-
-        if is_production:
-            logger.info(f"Production environment detected. Port: {port}")
-            # In production, gunicorn will handle the app
-            logger.info("Application ready for Gunicorn")
-        else:
-            # Local development
-            logger.info("Starting TRON Assistant Flask server for local development...")
-            logger.info(f"Server will be accessible on http://localhost:{port}")
-            app.run(debug=True, host='0.0.0.0', port=port, threaded=True)
+        
+        logger.info("Starting TRON Assistant Flask server...")
+        logger.info(f"Server will be accessible on port: {port}")
+        
+        # Always run the app directly for better port binding
+        app.run(debug=False, host='0.0.0.0', port=port, threaded=True)
 
     except KeyboardInterrupt:
         logger.info("Server interrupted by user (KeyboardInterrupt).")
