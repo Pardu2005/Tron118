@@ -5,7 +5,7 @@ cachetools==5.5.2
 certifi==2025.6.15
 cffi==1.17.1
 charset-normalizer==3.4.2
-click==8.2.1
+click>=8.0.0
 colorama==0.4.6
 comtypes==1.1.11
 cors==1.0.1
@@ -43,7 +43,7 @@ numba==0.61.2
 numpy==2.2.6
 openai-whisper==20250625
 pillow==11.3.0
-pip>=25.1.1
+pip>=23.0.0
 proto-plus==1.26.1
 protobuf==5.29.5
 pyasn1==0.6.1
@@ -60,7 +60,7 @@ regex==2024.11.6
 requests==2.32.4
 requests-file==2.1.0
 rsa==4.9.1
-setuptools==80.9.0
+setuptools>=65.0.0
 six==1.17.0
 sounddevice==0.5.2
 soupsieve==2.7
@@ -73,6 +73,6 @@ typing-inspection==0.4.1
 typing_extensions==4.14.0
 uritemplate==4.2.0
 urllib3==2.5.0
-Werkzeug==2.3.7
+Werkzeug>=2.0.0
 zope.event==5.1.1
 zope.interface==7.2
