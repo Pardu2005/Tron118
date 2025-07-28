@@ -1,4 +1,4 @@
-﻿annotated-types==0.7.0
+annotated-types==0.7.0
 beautifulsoup4==4.13.4
 blinker==1.6.3
 cachetools==5.5.2
@@ -17,12 +17,12 @@ fsspec==2025.5.1
 future==1.0.0
 gevent==25.5.1
 google==3.0.0
-google-ai-generativelanguage==0.6.15
+google-ai-generativelanguage>=0.4.0
 google-api-core==2.25.1
 google-api-python-client==2.174.0
 google-auth==2.40.3
 google-auth-httplib2==0.2.0
-google-generativeai==0.3.2
+google-generativeai>=0.3.2
 googleapis-common-protos==1.70.0
 greenlet==3.2.3
 gunicorn==21.2.0
