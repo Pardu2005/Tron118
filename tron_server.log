@@ -431,3 +431,48 @@
 2025-07-28 12:22:50,482 - INFO - 127.0.0.1 - - [28/Jul/2025 12:22:50] "POST /api/process HTTP/1.1" 200 -
 2025-07-28 12:22:54,136 - INFO - History loaded: 20 entries.
 2025-07-28 12:22:54,139 - INFO - 127.0.0.1 - - [28/Jul/2025 12:22:54] "GET /api/history HTTP/1.1" 200 -
+2025-07-28 13:12:54,145 - INFO - Google Generative AI configured successfully.
+2025-07-28 13:12:54,146 - INFO - Audio features disabled for web deployment.
+2025-07-28 13:12:54,146 - INFO - Gemini GenerativeModel and chat initialized.
+2025-07-28 13:12:54,154 - INFO - Starting TRON Assistant Flask server for local development...
+2025-07-28 13:12:54,154 - INFO - Server will be accessible on http://localhost:10000
+2025-07-28 13:12:54,173 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:10000
+ * Running on http://10.104.21.128:10000
+2025-07-28 13:12:54,173 - INFO - [33mPress CTRL+C to quit[0m
+2025-07-28 13:12:54,175 - INFO -  * Restarting with stat
+2025-07-28 13:12:58,040 - INFO - Google Generative AI configured successfully.
+2025-07-28 13:12:58,041 - INFO - Audio features disabled for web deployment.
+2025-07-28 13:12:58,041 - INFO - Gemini GenerativeModel and chat initialized.
+2025-07-28 13:12:58,047 - INFO - Starting TRON Assistant Flask server for local development...
+2025-07-28 13:12:58,047 - INFO - Server will be accessible on http://localhost:10000
+2025-07-28 13:12:58,062 - WARNING -  * Debugger is active!
+2025-07-28 13:12:58,065 - INFO -  * Debugger PIN: 123-078-886
+2025-07-28 13:12:58,349 - INFO - Serving index.html
+2025-07-28 13:12:58,406 - INFO - 127.0.0.1 - - [28/Jul/2025 13:12:58] "GET / HTTP/1.1" 200 -
+2025-07-28 13:12:59,112 - INFO - 127.0.0.1 - - [28/Jul/2025 13:12:59] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-07-28 13:13:00,111 - INFO - 127.0.0.1 - - [28/Jul/2025 13:13:00] "GET /api/status HTTP/1.1" 200 -
+2025-07-28 13:13:17,570 - INFO - Processing request - Mode: quiz, Query: quiz on trains..., Input Mode: text
+2025-07-28 13:13:20,389 - INFO - History saved successfully.
+2025-07-28 13:13:20,389 - INFO - Successfully processed Quiz Generator request. Final response length: 1050.
+2025-07-28 13:13:20,391 - INFO - 127.0.0.1 - - [28/Jul/2025 13:13:20] "POST /api/process HTTP/1.1" 200 -
+2025-07-28 13:13:47,099 - INFO - Processing request - Mode: doubt, Query: explain me about Cloud Computing in 50 words..., Input Mode: text
+2025-07-28 13:13:48,073 - INFO - History saved successfully.
+2025-07-28 13:13:48,073 - INFO - Successfully processed Doubt Solver request. Final response length: 269.
+2025-07-28 13:13:48,080 - INFO - 127.0.0.1 - - [28/Jul/2025 13:13:48] "POST /api/process HTTP/1.1" 200 -
+2025-07-28 13:14:54,003 - INFO - Processing request - Mode: code, Query: python code to print the pyramid using "*"..., Input Mode: text
+2025-07-28 13:14:58,183 - INFO - History saved successfully.
+2025-07-28 13:14:58,183 - INFO - Successfully processed Code Debugger request. Final response length: 2022.
+2025-07-28 13:14:58,183 - INFO - 127.0.0.1 - - [28/Jul/2025 13:14:58] "POST /api/process HTTP/1.1" 200 -
+2025-07-28 13:15:44,869 - INFO - File uploaded successfully: resume (2).pdf
+2025-07-28 13:15:44,945 - INFO - Text extracted from resume file: resume (2).pdf
+2025-07-28 13:15:44,945 - INFO - 127.0.0.1 - - [28/Jul/2025 13:15:44] "POST /api/upload HTTP/1.1" 200 -
+2025-07-28 13:15:46,472 - INFO - Processing request - Mode: resume, Query: ..., Input Mode: text
+2025-07-28 13:15:49,849 - INFO - History saved successfully.
+2025-07-28 13:15:49,849 - INFO - Successfully processed Resume Analyzer request. Final response length: 1908.
+2025-07-28 13:15:49,849 - INFO - 127.0.0.1 - - [28/Jul/2025 13:15:49] "POST /api/process HTTP/1.1" 200 -
+2025-07-28 13:16:05,352 - INFO - Processing request - Mode: resume, Query: correct the resume..., Input Mode: text
+2025-07-28 13:16:12,387 - INFO - History saved successfully.
+2025-07-28 13:16:12,387 - INFO - Successfully processed Resume Analyzer request. Final response length: 4166.
+2025-07-28 13:16:12,387 - INFO - 127.0.0.1 - - [28/Jul/2025 13:16:12] "POST /api/process HTTP/1.1" 200 -

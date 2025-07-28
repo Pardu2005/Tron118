@@ -37,6 +37,7 @@ MAX_HISTORY_ENTRIES = 1000  # Limit history file size
 UPLOAD_FOLDER = 'uploads'
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
+# Create Flask app - THIS IS CRITICAL FOR GUNICORN
 app = Flask(__name__, static_folder='.')
 CORS(app, origins=["*"])  # Allow all origins for deployment, restrict in production
 
@@ -353,6 +354,33 @@ def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
+def initialize_history_file():
+    """Initialize history file with header if it doesn't exist"""
+    if not os.path.exists(HISTORY_FILE):
+        try:
+            with open(HISTORY_FILE, 'w', newline='', encoding='utf-8') as f:
+                writer = csv.writer(f)
+                writer.writerow(['timestamp', 'mode', 'query', 'response'])
+            logger.info(f"History file '{HISTORY_FILE}' created with header.")
+        except IOError as e:
+            logger.error(f"Failed to create history file '{HISTORY_FILE}': {e}", exc_info=True)
+
+
+# Initialize required files and directories
+def setup_app():
+    """Setup function called at module level"""
+    initialize_history_file()
+    if not os.path.exists("projects"):
+        os.makedirs("projects", exist_ok=True)
+        logger.info("Created 'projects' directory.")
+    if not os.path.exists(UPLOAD_FOLDER):
+        os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+        logger.info("Created uploads directory.")
+
+
+# Setup app immediately when module is imported
+setup_app()
+
 # Initialize the TRON instance
 tron_instance = TRONAssistant()
 
@@ -374,6 +402,23 @@ def serve_favicon():
         return send_from_directory('.', 'favicon.ico', mimetype='image/x-icon')
     logger.debug("favicon.ico not found, returning 204 No Content.")
     return '', 204
+
+
+# Health check endpoint for Render - CRITICAL FOR PORT DETECTION
+@app.route('/health')
+def health_check():
+    return jsonify({
+        'status': 'healthy',
+        'timestamp': datetime.now().isoformat(),
+        'port': os.environ.get('PORT', 'unknown'),
+        'message': 'TRON Assistant is running'
+    })
+
+
+# Add a simple test endpoint that responds quickly
+@app.route('/ping')
+def ping():
+    return jsonify({'status': 'pong', 'timestamp': datetime.now().isoformat()})
 
 
 @app.route('/api/process', methods=['POST'])
@@ -609,16 +654,6 @@ def get_status():
     })
 
 
-# Health check endpoint for Render
-@app.route('/health', methods=['GET'])
-def health_check():
-    return jsonify({
-        'status': 'healthy',
-        'timestamp': datetime.now().isoformat(),
-        'port': os.environ.get('PORT', 'unknown')
-    })
-
-
 @app.errorhandler(400)
 def bad_request(error):
     logger.error(f"400 Bad Request: {error.description if hasattr(error, 'description') else str(error)}",
@@ -648,48 +683,30 @@ def internal_error(error):
     }), 500
 
 
-def initialize_history_file():
-    """Initialize history file with header if it doesn't exist"""
-    if not os.path.exists(HISTORY_FILE):
-        try:
-            with open(HISTORY_FILE, 'w', newline='', encoding='utf-8') as f:
-                writer = csv.writer(f)
-                writer.writerow(['timestamp', 'mode', 'query', 'response'])
-            logger.info(f"History file '{HISTORY_FILE}' created with header.")
-        except IOError as e:
-            logger.error(f"Failed to create history file '{HISTORY_FILE}': {e}", exc_info=True)
-
-
+# Application factory pattern for better deployment
 def create_app():
     """Application factory pattern for better deployment"""
-    initialize_history_file()
-
-    # Create projects directory if it doesn't exist
-    if not os.path.exists("projects"):
-        os.makedirs("projects", exist_ok=True)
-        logger.info("Created 'projects' directory.")
-
     return app
 
 
+# WSGI callable - CRITICAL for Gunicorn
+application = app
+
+# Ensure app is available at module level for Render
+app = app
+
 if __name__ == "__main__":
     try:
-        initialize_history_file()
-        if not os.path.exists("projects"):
-            os.makedirs("projects", exist_ok=True)
-            logger.info("Created 'projects' directory.")
-
         # Enhanced port configuration for Render deployment
-        port = int(os.environ.get('PORT', os.environ.get('RENDER_PORT', 5000)))
+        port = int(os.environ.get('PORT', 10000))
 
         # Check if running on Render or other production environment
-        is_production = os.environ.get('RENDER') or os.environ.get('RAILWAY_ENVIRONMENT') or os.environ.get(
-            'HEROKU_APP_NAME')
+        is_production = os.environ.get('RENDER') or os.environ.get('RAILWAY_ENVIRONMENT') or os.environ.get('HEROKU_APP_NAME')
 
         if is_production:
-            logger.info(f"Production environment detected. Using port {port}")
-            # Let gunicorn handle the app in production
-            logger.info("In production, this should be handled by gunicorn")
+            logger.info(f"Production environment detected. Port: {port}")
+            # In production, gunicorn will handle the app
+            logger.info("Application ready for Gunicorn")
         else:
             # Local development
             logger.info("Starting TRON Assistant Flask server for local development...")

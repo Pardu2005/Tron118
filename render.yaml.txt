@@ -1,15 +1,9 @@
-
 services:
   - type: web
     name: tron-assistant
     env: python
-    region: oregon
-    plan: free
     buildCommand: pip install -r requirements.txt
-    startCommand: gunicorn --bind 0.0.0.0:$PORT --workers 1 --timeout 120 app:app
+    startCommand: gunicorn --bind 0.0.0.0:$PORT app:app
     envVars:
       - key: GOOGLE_API_KEY
         sync: false
-      - key: PYTHON_VERSION
-        value: 3.9.18
-    healthCheckPath: /health
