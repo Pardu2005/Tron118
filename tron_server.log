@@ -290,3 +290,144 @@
 2025-07-25 12:46:35,108 - INFO - History saved successfully.
 2025-07-25 12:46:35,108 - INFO - Successfully processed Doubt Solver request. Final response length: 1653.
 2025-07-25 12:46:35,110 - INFO - 127.0.0.1 - - [25/Jul/2025 12:46:35] "POST /api/process HTTP/1.1" 200 -
+2025-07-28 12:15:49,756 - INFO - Google Generative AI configured successfully.
+2025-07-28 12:15:49,758 - INFO - Audio features disabled for web deployment.
+2025-07-28 12:15:49,758 - INFO - Gemini GenerativeModel and chat initialized.
+2025-07-28 12:15:49,764 - INFO - Starting TRON Assistant Flask server for local development...
+2025-07-28 12:15:49,764 - INFO - Server will be accessible on http://localhost:5000
+2025-07-28 12:15:49,871 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.104.21.128:5000
+2025-07-28 12:15:49,871 - INFO - [33mPress CTRL+C to quit[0m
+2025-07-28 12:15:49,874 - INFO -  * Restarting with stat
+2025-07-28 12:15:54,154 - INFO - Google Generative AI configured successfully.
+2025-07-28 12:15:54,154 - INFO - Audio features disabled for web deployment.
+2025-07-28 12:15:54,155 - INFO - Gemini GenerativeModel and chat initialized.
+2025-07-28 12:15:54,160 - INFO - Starting TRON Assistant Flask server for local development...
+2025-07-28 12:15:54,160 - INFO - Server will be accessible on http://localhost:5000
+2025-07-28 12:15:54,182 - WARNING -  * Debugger is active!
+2025-07-28 12:15:54,186 - INFO -  * Debugger PIN: 123-078-886
+2025-07-28 12:15:56,455 - INFO -  * Detected change in 'C:\\Users\\pardu\\PycharmProjects\\TRON\\.venv\\Lib\\site-packages\\google\\protobuf\\descriptor_pb2.py', reloading
+2025-07-28 12:15:58,626 - INFO -  * Restarting with stat
+2025-07-28 12:16:02,317 - INFO - Google Generative AI configured successfully.
+2025-07-28 12:16:02,318 - INFO - Audio features disabled for web deployment.
+2025-07-28 12:16:02,318 - INFO - Gemini GenerativeModel and chat initialized.
+2025-07-28 12:16:02,324 - INFO - Starting TRON Assistant Flask server for local development...
+2025-07-28 12:16:02,324 - INFO - Server will be accessible on http://localhost:5000
+2025-07-28 12:16:02,357 - WARNING -  * Debugger is active!
+2025-07-28 12:16:02,366 - INFO -  * Debugger PIN: 123-078-886
+2025-07-28 12:16:02,474 - INFO - Serving index.html
+2025-07-28 12:16:02,477 - INFO - 127.0.0.1 - - [28/Jul/2025 12:16:02] "GET / HTTP/1.1" 200 -
+2025-07-28 12:16:03,900 - INFO - 127.0.0.1 - - [28/Jul/2025 12:16:03] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-07-28 12:16:04,876 - INFO - 127.0.0.1 - - [28/Jul/2025 12:16:04] "GET /api/status HTTP/1.1" 200 -
+2025-07-28 12:16:11,027 - INFO -  * Detected change in 'C:\\Users\\pardu\\PycharmProjects\\TRON\\.venv\\Lib\\site-packages\\google\\generativeai\\__init__.py', reloading
+2025-07-28 12:16:13,368 - INFO -  * Restarting with stat
+2025-07-28 12:16:18,576 - INFO - Google Generative AI configured successfully.
+2025-07-28 12:16:18,576 - INFO - Audio features disabled for web deployment.
+2025-07-28 12:16:18,576 - INFO - Gemini GenerativeModel and chat initialized.
+2025-07-28 12:16:18,582 - INFO - Starting TRON Assistant Flask server for local development...
+2025-07-28 12:16:18,582 - INFO - Server will be accessible on http://localhost:5000
+2025-07-28 12:16:18,611 - WARNING -  * Debugger is active!
+2025-07-28 12:16:18,617 - INFO -  * Debugger PIN: 123-078-886
+2025-07-28 12:16:30,788 - INFO - Processing request - Mode: quiz, Query: generate a 10 question quiz on indian economy..., Input Mode: text
+2025-07-28 12:16:33,952 - INFO - Processing request - Mode: quiz, Query: generate a 10 question quiz on indian economy..., Input Mode: text
+2025-07-28 12:16:35,448 - INFO - History saved successfully.
+2025-07-28 12:16:35,448 - INFO - Successfully processed Quiz Generator request. Final response length: 2511.
+2025-07-28 12:16:35,449 - INFO - 127.0.0.1 - - [28/Jul/2025 12:16:35] "POST /api/process HTTP/1.1" 200 -
+2025-07-28 12:16:35,611 - INFO - Processing request - Mode: quiz, Query: generate a 10 question quiz on indian economy..., Input Mode: text
+2025-07-28 12:16:36,970 - INFO - Processing request - Mode: quiz, Query: generate a 10 question quiz on indian economy..., Input Mode: text
+2025-07-28 12:16:37,191 - INFO - Processing request - Mode: quiz, Query: generate a 10 question quiz on indian economy..., Input Mode: text
+2025-07-28 12:16:37,404 - INFO - Processing request - Mode: quiz, Query: generate a 10 question quiz on indian economy..., Input Mode: text
+2025-07-28 12:16:38,741 - INFO - History saved successfully.
+2025-07-28 12:16:38,741 - INFO - Successfully processed Quiz Generator request. Final response length: 2695.
+2025-07-28 12:16:38,741 - INFO - 127.0.0.1 - - [28/Jul/2025 12:16:38] "POST /api/process HTTP/1.1" 200 -
+2025-07-28 12:16:40,143 - INFO - History saved successfully.
+2025-07-28 12:16:40,143 - INFO - Successfully processed Quiz Generator request. Final response length: 2545.
+2025-07-28 12:16:40,143 - INFO - 127.0.0.1 - - [28/Jul/2025 12:16:40] "POST /api/process HTTP/1.1" 200 -
+2025-07-28 12:16:41,351 - INFO - History saved successfully.
+2025-07-28 12:16:41,351 - INFO - Successfully processed Quiz Generator request. Final response length: 2453.
+2025-07-28 12:16:41,351 - INFO - 127.0.0.1 - - [28/Jul/2025 12:16:41] "POST /api/process HTTP/1.1" 200 -
+2025-07-28 12:16:41,492 - INFO -  * Detected change in 'C:\\Users\\pardu\\PycharmProjects\\TRON\\.venv\\Lib\\site-packages\\docx\\package.py', reloading
+2025-07-28 12:16:43,780 - INFO -  * Restarting with stat
+2025-07-28 12:16:49,314 - INFO - Google Generative AI configured successfully.
+2025-07-28 12:16:49,314 - INFO - Audio features disabled for web deployment.
+2025-07-28 12:16:49,314 - INFO - Gemini GenerativeModel and chat initialized.
+2025-07-28 12:16:49,320 - INFO - Starting TRON Assistant Flask server for local development...
+2025-07-28 12:16:49,320 - INFO - Server will be accessible on http://localhost:5000
+2025-07-28 12:16:49,346 - WARNING -  * Debugger is active!
+2025-07-28 12:16:49,353 - INFO -  * Debugger PIN: 123-078-886
+2025-07-28 12:16:51,081 - INFO - Processing request - Mode: quiz, Query: generate a 10 question quiz on indian economy..., Input Mode: text
+2025-07-28 12:16:52,849 - INFO -  * Detected change in 'C:\\Users\\pardu\\PycharmProjects\\TRON\\.venv\\Lib\\site-packages\\werkzeug\\datastructures\\range.py', reloading
+2025-07-28 12:16:55,139 - INFO -  * Restarting with stat
+2025-07-28 12:17:00,803 - INFO - Google Generative AI configured successfully.
+2025-07-28 12:17:00,803 - INFO - Audio features disabled for web deployment.
+2025-07-28 12:17:00,803 - INFO - Gemini GenerativeModel and chat initialized.
+2025-07-28 12:17:00,810 - INFO - Starting TRON Assistant Flask server for local development...
+2025-07-28 12:17:00,810 - INFO - Server will be accessible on http://localhost:5000
+2025-07-28 12:17:00,827 - WARNING -  * Debugger is active!
+2025-07-28 12:17:00,834 - INFO -  * Debugger PIN: 123-078-886
+2025-07-28 12:17:28,844 - INFO - Google Generative AI configured successfully.
+2025-07-28 12:17:28,845 - INFO - Audio features disabled for web deployment.
+2025-07-28 12:17:28,845 - INFO - Gemini GenerativeModel and chat initialized.
+2025-07-28 12:17:28,851 - INFO - Starting TRON Assistant Flask server for local development...
+2025-07-28 12:17:28,851 - INFO - Server will be accessible on http://localhost:5000
+2025-07-28 12:17:28,873 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.104.21.128:5000
+2025-07-28 12:17:28,873 - INFO - [33mPress CTRL+C to quit[0m
+2025-07-28 12:17:28,876 - INFO -  * Restarting with stat
+2025-07-28 12:17:33,554 - INFO - Google Generative AI configured successfully.
+2025-07-28 12:17:33,555 - INFO - Audio features disabled for web deployment.
+2025-07-28 12:17:33,555 - INFO - Gemini GenerativeModel and chat initialized.
+2025-07-28 12:17:33,561 - INFO - Starting TRON Assistant Flask server for local development...
+2025-07-28 12:17:33,561 - INFO - Server will be accessible on http://localhost:5000
+2025-07-28 12:17:33,576 - WARNING -  * Debugger is active!
+2025-07-28 12:17:33,580 - INFO -  * Debugger PIN: 123-078-886
+2025-07-28 12:17:33,649 - INFO - Serving index.html
+2025-07-28 12:17:33,690 - INFO - 10.104.21.128 - - [28/Jul/2025 12:17:33] "GET / HTTP/1.1" 200 -
+2025-07-28 12:17:35,619 - INFO - 10.104.21.128 - - [28/Jul/2025 12:17:35] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-07-28 12:17:36,607 - INFO - 10.104.21.128 - - [28/Jul/2025 12:17:36] "GET /api/status HTTP/1.1" 200 -
+2025-07-28 12:17:36,926 - INFO -  * Detected change in 'C:\\Users\\pardu\\PycharmProjects\\TRON\\.venv\\Lib\\site-packages\\grpc_status\\_async.py', reloading
+2025-07-28 12:17:39,084 - INFO -  * Restarting with stat
+2025-07-28 12:17:44,201 - INFO - Google Generative AI configured successfully.
+2025-07-28 12:17:44,201 - INFO - Audio features disabled for web deployment.
+2025-07-28 12:17:44,201 - INFO - Gemini GenerativeModel and chat initialized.
+2025-07-28 12:17:44,209 - INFO - Starting TRON Assistant Flask server for local development...
+2025-07-28 12:17:44,209 - INFO - Server will be accessible on http://localhost:5000
+2025-07-28 12:17:44,225 - WARNING -  * Debugger is active!
+2025-07-28 12:17:44,232 - INFO -  * Debugger PIN: 123-078-886
+2025-07-28 12:17:57,522 - INFO - Processing request - Mode: quiz, Query: generate a 10 question quiz on indian economy..., Input Mode: text
+2025-07-28 12:18:02,354 - INFO - History saved successfully.
+2025-07-28 12:18:02,354 - INFO - Successfully processed Quiz Generator request. Final response length: 2741.
+2025-07-28 12:18:02,355 - INFO - 10.104.21.128 - - [28/Jul/2025 12:18:02] "POST /api/process HTTP/1.1" 200 -
+2025-07-28 12:18:32,958 - INFO - Serving index.html
+2025-07-28 12:18:33,086 - INFO - 127.0.0.1 - - [28/Jul/2025 12:18:33] "[36mGET / HTTP/1.1[0m" 304 -
+2025-07-28 12:18:33,710 - INFO - 127.0.0.1 - - [28/Jul/2025 12:18:33] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-07-28 12:18:34,691 - INFO - 127.0.0.1 - - [28/Jul/2025 12:18:34] "GET /api/status HTTP/1.1" 200 -
+2025-07-28 12:19:02,335 - INFO - Processing request - Mode: quiz, Query: generate a 10 question quiz on Indian GDP..., Input Mode: text
+2025-07-28 12:19:07,760 - INFO - History saved successfully.
+2025-07-28 12:19:07,760 - INFO - Successfully processed Quiz Generator request. Final response length: 3205.
+2025-07-28 12:19:07,760 - INFO - 127.0.0.1 - - [28/Jul/2025 12:19:07] "POST /api/process HTTP/1.1" 200 -
+2025-07-28 12:19:44,832 - INFO - Processing request - Mode: doubt, Query: explain about ai in 50 words..., Input Mode: text
+2025-07-28 12:19:46,265 - INFO - History saved successfully.
+2025-07-28 12:19:46,265 - INFO - Successfully processed Doubt Solver request. Final response length: 253.
+2025-07-28 12:19:46,267 - INFO - 127.0.0.1 - - [28/Jul/2025 12:19:46] "POST /api/process HTTP/1.1" 200 -
+2025-07-28 12:21:05,753 - INFO - Processing request - Mode: code, Query: generate a c++ code for adding 2 printing * pattern in pyramid..., Input Mode: text
+2025-07-28 12:21:11,038 - INFO - History saved successfully.
+2025-07-28 12:21:11,038 - INFO - Successfully processed Code Debugger request. Final response length: 2522.
+2025-07-28 12:21:11,038 - INFO - 127.0.0.1 - - [28/Jul/2025 12:21:11] "POST /api/process HTTP/1.1" 200 -
+2025-07-28 12:21:27,536 - INFO - File uploaded successfully: Raju's resume (1) (1).pdf
+2025-07-28 12:21:28,033 - INFO - Text extracted from resume file: Raju's resume (1) (1).pdf
+2025-07-28 12:21:28,035 - INFO - 127.0.0.1 - - [28/Jul/2025 12:21:28] "POST /api/upload HTTP/1.1" 200 -
+2025-07-28 12:21:29,549 - INFO - Processing request - Mode: resume, Query: ..., Input Mode: text
+2025-07-28 12:21:31,038 - INFO - History saved successfully.
+2025-07-28 12:21:31,038 - INFO - Successfully processed Resume Analyzer request. Final response length: 142.
+2025-07-28 12:21:31,042 - INFO - 127.0.0.1 - - [28/Jul/2025 12:21:31] "POST /api/process HTTP/1.1" 200 -
+2025-07-28 12:22:44,008 - INFO - Processing request - Mode: resume, Query: tell me the corrections of the resume..., Input Mode: text
+2025-07-28 12:22:50,482 - INFO - History saved successfully.
+2025-07-28 12:22:50,482 - INFO - Successfully processed Resume Analyzer request. Final response length: 3348.
+2025-07-28 12:22:50,482 - INFO - 127.0.0.1 - - [28/Jul/2025 12:22:50] "POST /api/process HTTP/1.1" 200 -
+2025-07-28 12:22:54,136 - INFO - History loaded: 20 entries.
+2025-07-28 12:22:54,139 - INFO - 127.0.0.1 - - [28/Jul/2025 12:22:54] "GET /api/history HTTP/1.1" 200 -

@@ -1,8 +1,4 @@
 import os
-import whisper
-import pyttsx3
-import numpy as np
-import sounddevice as sd
 import logging
 import logging.handlers
 import google.generativeai as genai
@@ -18,6 +14,7 @@ from flask_cors import CORS
 import json
 from datetime import datetime
 
+# Import features
 from features import doubt_solver, quiz_generator, code_debugger, resume_analyzer
 
 # Configure logging with rotation
@@ -32,7 +29,8 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-GOOGLE_API_KEY = "AIzaSyBfNHzwcjsHLOP4Y1z8zBRSGgeLjI4la3s"  # Replace with your valid API key
+# Use environment variable for API key in production
+GOOGLE_API_KEY = os.environ.get('GOOGLE_API_KEY', "AIzaSyBfNHzwcjsHLOP4Y1z8zBRSGgeLjI4la3s")
 HISTORY_FILE = "tron_history.csv"
 MAX_HISTORY_ENTRIES = 1000  # Limit history file size
 
@@ -40,22 +38,23 @@ UPLOAD_FOLDER = 'uploads'
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 app = Flask(__name__, static_folder='.')
-CORS(app, origins=["http://localhost:5000", "http://localhost:8000"])  # Restrict CORS origins
+CORS(app, origins=["*"])  # Allow all origins for deployment, restrict in production
 
 ALLOWED_EXTENSIONS = {'pdf', 'doc', 'docx'}
 
+
 @dataclass
 class Config:
-    whisper_model_size: str = "base"
-    audio_duration: int = 3
-    sample_rate: int = 16000
-    channels: int = 1
-    input_mode: str = "both"
+    input_mode: str = "text"  # Default to text-only for web deployment
     max_retries: int = 3
     retry_delay: int = 2
 
     def __post_init__(self):
         try:
+            if not GOOGLE_API_KEY:
+                logger.error("GOOGLE_API_KEY environment variable not set")
+                raise ValueError("GOOGLE_API_KEY is required")
+
             genai.configure(api_key=GOOGLE_API_KEY)
             # Test API key validity
             test_model = genai.GenerativeModel('gemini-1.5-flash')
@@ -65,99 +64,31 @@ class Config:
             logger.error(f"Failed to configure Google Generative AI: {e}", exc_info=True)
             sys.exit(1)
 
+
 class AudioHandler:
+    """Audio handler that works in web deployment (audio features disabled)"""
+
     def __init__(self, config: Config):
         self.config = config
-        self.engine = pyttsx3.init()
-        self._setup_voice()
-        try:
-            self.whisper_model = whisper.load_model(config.whisper_model_size)
-            logger.info(f"Whisper model '{config.whisper_model_size}' loaded successfully.")
-        except Exception as e:
-            logger.error(f"Failed to load Whisper model '{config.whisper_model_size}': {e}", exc_info=True)
-            self.whisper_model = None
-        self.speaking = False
-        self.stop_speaking_flag = threading.Event()
-
-    def _setup_voice(self):
-        try:
-            voices = self.engine.getProperty('voices')
-            if voices:
-                female_voice_id = next((v.id for v in voices if 'female' in v.name.lower()), voices[0].id)
-                self.engine.setProperty('voice', female_voice_id)
-            self.engine.setProperty('rate', 185)
-            logger.info("pyttsx3 voice setup complete.")
-        except Exception as e:
-            logger.error(f"pyttsx3 voice setup failed: {e}", exc_info=True)
+        # Audio features disabled for web deployment
+        self.audio_available = False
+        logger.info("Audio features disabled for web deployment.")
 
     def speak(self, text: str):
-        if self.speaking:
-            logger.debug("Already speaking, skipping new speech request.")
-            return
-
-        self.speaking = True
-        self.stop_speaking_flag.clear()
-        logger.info(f"Starting speech for text: {text[:50]}...")
-
-        try:
-            clean_text = re.sub(r'[^\w\s.,?!:;\'"()\-]', '', text)
-            sentences = re.split(r'([.!?]+)', clean_text)
-            processed_sentences = []
-            for i in range(0, len(sentences), 2):
-                sentence_part = sentences[i].strip()
-                if i + 1 < len(sentences):
-                    terminator_part = sentences[i + 1].strip()
-                    processed_sentences.append(f"{sentence_part}{terminator_part}")
-                elif sentence_part:
-                    processed_sentences.append(sentence_part)
-
-            for sentence in processed_sentences:
-                if self.stop_speaking_flag.is_set():
-                    logger.info("Speech stopped by flag in speak loop.")
-                    break
-                if sentence.strip():
-                    self.engine.say(sentence.strip())
-                    self.engine.runAndWait()
-                    if self.stop_speaking_flag.is_set():
-                        logger.info("Speech stopped during runAndWait, breaking.")
-                        break
-        except Exception as e:
-            logger.error(f"Speech generation error: {e}", exc_info=True)
-        finally:
-            self.speaking = False
-            self.engine.stop()
-            self.stop_speaking_flag.clear()
-            logger.info("Speech process finished/stopped.")
+        """Placeholder for speech - handled by frontend"""
+        logger.info(f"Speech request received (handled by frontend): {text[:50]}...")
+        return "Speech handled by frontend"
 
     def stop_speech(self):
-        self.stop_speaking_flag.set()
-        logger.info("stop_speech called: Flag set.")
-        if self.speaking:
-            try:
-                self.engine.stop()
-                logger.info("Attempted to stop pyttsx3 engine directly.")
-            except Exception as e:
-                logger.debug(f"Error while calling engine.stop(): {e}")
+        """Placeholder for stop speech - handled by frontend"""
+        logger.info("Stop speech request received (handled by frontend).")
+        return "Stop speech handled by frontend"
 
     def listen(self) -> Optional[str]:
-        if not self.whisper_model:
-            logger.error("Whisper model not loaded. Cannot listen.")
-            return None
-        try:
-            logger.info("Listening for audio input...")
-            audio = sd.rec(int(self.config.audio_duration * self.config.sample_rate),
-                           samplerate=self.config.sample_rate,
-                           channels=self.config.channels,
-                           dtype='float32')
-            sd.wait()
-            logger.info("Audio recording finished. Transcribing...")
-            result = self.whisper_model.transcribe(np.squeeze(audio), fp16=False)
-            transcribed_text = result.get('text', '').strip()
-            logger.info(f"Transcribed text: {transcribed_text}")
-            return transcribed_text
-        except Exception as e:
-            logger.error(f"Audio listening or transcription error: {e}", exc_info=True)
-            return None
+        """Placeholder for listening - handled by frontend"""
+        logger.info("Listen request received (handled by frontend).")
+        return None
+
 
 class ResponseHandler:
     def __init__(self):
@@ -184,6 +115,7 @@ class ResponseHandler:
             logger.error(f"Error getting response from Gemini: {e}", exc_info=True)
             return f"Error: Failed to generate response: {str(e)}"
 
+
 class TRONAssistant:
     def __init__(self):
         self.config = Config()
@@ -201,7 +133,7 @@ class TRONAssistant:
                         with open(HISTORY_FILE, 'w', newline='', encoding='utf-8') as f:
                             writer = csv.writer(f)
                             writer.writerow(['timestamp', 'mode', 'query', 'response'])
-                            writer.writerows(lines[-MAX_HISTORY_ENTRIES+1:])
+                            writer.writerows(lines[-MAX_HISTORY_ENTRIES + 1:])
 
             with open(HISTORY_FILE, mode='a', newline='', encoding='utf-8') as file:
                 writer = csv.writer(file)
@@ -308,18 +240,22 @@ class TRONAssistant:
             line = line.strip()
             if not line:
                 continue
-            if any(marker in line.lower() for marker in ['question', 'q:', 'q.']) and not line.startswith(('a)', 'b)', 'c)', 'd)')):
+            if any(marker in line.lower() for marker in ['question', 'q:', 'q.']) and not line.startswith(
+                    ('a)', 'b)', 'c)', 'd)')):
                 question_count += 1
                 if question_count > 1:
-                    formatted_lines.append('<div class="question-block mt-6 p-3 bg-gray-700 rounded border border-cyan-500">')
+                    formatted_lines.append(
+                        '<div class="question-block mt-6 p-3 bg-gray-700 rounded border border-cyan-500">')
                 else:
-                    formatted_lines.append('<div class="question-block mt-4 p-3 bg-gray-700 rounded border border-cyan-500">')
+                    formatted_lines.append(
+                        '<div class="question-block mt-4 p-3 bg-gray-700 rounded border border-cyan-500">')
                 formatted_lines.append(f'<strong class="text-cyan-300">Question {question_count}:</strong>')
                 formatted_lines.append(f'<p class="mt-2 text-gray-200">{line}</p>')
             elif line.startswith(('a)', 'b)', 'c)', 'd)', 'A)', 'B)', 'C)', 'D)')):
                 formatted_lines.append(f'<div class="option ml-4 mt-1 text-gray-300">• {line}</div>')
             elif 'answer' in line.lower() and not line.startswith(('a)', 'b)', 'c)', 'd)')):
-                formatted_lines.append('<div class="answer mt-2 p-2 bg-green-800 bg-opacity-50 rounded border border-green-500">')
+                formatted_lines.append(
+                    '<div class="answer mt-2 p-2 bg-green-800 bg-opacity-50 rounded border border-green-500">')
                 formatted_lines.append(f'<strong class="text-green-300">{line}</strong>')
                 formatted_lines.append('</div>')
             else:
@@ -332,7 +268,8 @@ class TRONAssistant:
         try:
             content = re.sub(r'\*\*(.*?)\*\*', r'<strong class="text-purple-300">\\1</strong>', content)
             content = re.sub(r'\*(.*?)\*', r'<em class="text-purple-200">\\1</em>', content)
-            content = re.sub(r'`(.*?)`', r'<code class="bg-gray-700 px-2 py-1 rounded text-purple-200">\\1</code>', content)
+            content = re.sub(r'`(.*?)`', r'<code class="bg-gray-700 px-2 py-1 rounded text-purple-200">\\1</code>',
+                             content)
             content = re.sub(r'^- (.+)$', r'<li><p>\\1</p></li>', content, flags=re.MULTILINE)
             if '<li>' in content:
                 content = f'<ul class="list-disc list-inside mt-3 text-gray-200">{content}</ul>'
@@ -361,18 +298,21 @@ class TRONAssistant:
                 else:
                     lang = line_strip[3:].strip()
                     lang_class = f'language-{lang}' if lang else ''
-                    formatted_lines.append(f'<pre class="bg-gray-900 p-3 rounded border border-red-500 mt-3 overflow-auto"><code class="text-red-200 {lang_class}">')
+                    formatted_lines.append(
+                        f'<pre class="bg-gray-900 p-3 rounded border border-red-500 mt-3 overflow-auto"><code class="text-red-200 {lang_class}">')
                     in_code_block = True
                 continue
             if in_code_block:
                 formatted_lines.append(f'{line}\n')
             else:
                 if any(keyword in line.lower() for keyword in ['error', 'bug', 'issue', 'problem', 'fix']):
-                    formatted_lines.append('<div class="error-solution-highlight p-2 bg-red-800 bg-opacity-50 rounded border border-red-500 mt-2">')
+                    formatted_lines.append(
+                        '<div class="error-solution-highlight p-2 bg-red-800 bg-opacity-50 rounded border border-red-500 mt-2">')
                     formatted_lines.append(f'<strong class="text-red-300">🚨 {line}</strong>')
                     formatted_lines.append('</div>')
                 elif any(keyword in line.lower() for keyword in ['solution', 'correct', 'optim', 'recommend']):
-                    formatted_lines.append('<div class="solution-highlight p-2 bg-green-800 bg-opacity-50 rounded border border-green-500 mt-2">')
+                    formatted_lines.append(
+                        '<div class="solution-highlight p-2 bg-green-800 bg-opacity-50 rounded border border-green-500 mt-2">')
                     formatted_lines.append(f'<strong class="text-green-300">✅ {line}</strong>')
                     formatted_lines.append('</div>')
                 else:
@@ -390,25 +330,32 @@ class TRONAssistant:
             if not line:
                 continue
             if any(keyword in line.lower() for keyword in ['score', 'rating', '/10', '%']):
-                formatted_lines.append('<div class="score-section p-3 bg-yellow-800 bg-opacity-50 rounded border border-yellow-500 mt-3">')
+                formatted_lines.append(
+                    '<div class="score-section p-3 bg-yellow-800 bg-opacity-50 rounded border border-yellow-500 mt-3">')
                 formatted_lines.append(f'<strong class="text-yellow-300">📊 {line}</strong>')
                 formatted_lines.append('</div>')
             elif any(keyword in line.lower() for keyword in ['strength', 'good', 'excellent', 'strong']):
-                formatted_lines.append('<div class="strength-item p-2 bg-green-800 bg-opacity-30 rounded border border-green-600 mt-2">')
+                formatted_lines.append(
+                    '<div class="strength-item p-2 bg-green-800 bg-opacity-30 rounded border border-green-600 mt-2">')
                 formatted_lines.append(f'<span class="text-green-300">✅ {line}</span>')
                 formatted_lines.append('</div>')
             elif any(keyword in line.lower() for keyword in ['improve', 'weak', 'lacking', 'missing']):
-                formatted_lines.append('<div class="improvement-item p-2 bg-orange-800 bg-opacity-30 rounded border border-orange-600 mt-2">')
+                formatted_lines.append(
+                    '<div class="improvement-item p-2 bg-orange-800 bg-opacity-30 rounded border border-orange-600 mt-2">')
                 formatted_lines.append(f'<span class="text-orange-300">📈 {line}</span>')
                 formatted_lines.append('</div>')
             else:
                 formatted_lines.append(f'<p class="text-gray-200 mt-2">{line}</p>')
         return ''.join(formatted_lines)
 
+
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
+
+# Initialize the TRON instance
 tron_instance = TRONAssistant()
+
 
 @app.route('/')
 def serve_index():
@@ -420,12 +367,14 @@ def serve_index():
     logger.error("No HTML file found in project directory to serve.")
     return abort(404, description="HTML file not found in project directory")
 
+
 @app.route('/favicon.ico')
 def serve_favicon():
     if os.path.exists('favicon.ico'):
         return send_from_directory('.', 'favicon.ico', mimetype='image/x-icon')
     logger.debug("favicon.ico not found, returning 204 No Content.")
     return '', 204
+
 
 @app.route('/api/process', methods=['POST'])
 def process_query():
@@ -459,7 +408,8 @@ def process_query():
         if mode == 'resume' and not query:
             if not getattr(resume_analyzer, 'LOADED_RESUME', None):
                 logger.warning("Resume mode selected, but no query provided and no resume file loaded.")
-                return jsonify({'error': 'Please upload a resume file or paste resume content.', 'status': 'error'}), 400
+                return jsonify(
+                    {'error': 'Please upload a resume file or paste resume content.', 'status': 'error'}), 400
             query = resume_analyzer.LOADED_RESUME
 
         mode_name, handler = mode_map[mode]
@@ -496,26 +446,20 @@ def process_query():
         logger.critical(f"Unhandled error in /api/process: {str(e)}", exc_info=True)
         return jsonify({'error': f'Internal server error: {str(e)}', 'status': 'error'}), 500
 
+
 @app.route('/api/speech/listen', methods=['POST'])
 def speech_listen():
     try:
-        if not tron_instance.audio_handler.whisper_model:
-            logger.error("Whisper model not available for speech listening.")
-            return jsonify({'error': 'Speech recognition service unavailable', 'status': 'error'}), 503
-
-        logger.info("Initiating speech recognition via API.")
-        transcribed_text = tron_instance.audio_handler.listen()
-
-        if transcribed_text:
-            logger.info(f"Speech transcribed: {transcribed_text[:100]}...")
-            return jsonify({'text': transcribed_text, 'status': 'success'})
-        else:
-            logger.warning("No speech detected or transcription failed.")
-            return jsonify({'error': 'No speech detected or failed to transcribe.', 'status': 'error'}), 400
-
+        logger.info("Speech recognition request received - handled by frontend.")
+        return jsonify({
+            'error': 'Speech recognition handled by frontend browser APIs',
+            'status': 'info',
+            'message': 'Use browser Web Speech API for audio input'
+        }), 200
     except Exception as e:
         logger.critical(f"Error in /api/speech/listen: {str(e)}", exc_info=True)
         return jsonify({'error': f'Speech recognition error: {str(e)}', 'status': 'error'}), 500
+
 
 @app.route('/api/speech/speak', methods=['POST'])
 def speech_speak():
@@ -527,21 +471,13 @@ def speech_speak():
             logger.warning("Received empty text for speech generation.")
             return jsonify({'error': 'No text provided for speech.', 'status': 'error'}), 400
 
-        logger.info(f"Received text to speak: {text[:100]}...")
+        logger.info(f"Received text to speak (handled by frontend): {text[:100]}...")
 
-        if tron_instance.speech_thread and tron_instance.speech_thread.is_alive():
-            logger.debug("Previous speech thread still active, stopping it now.")
-            tron_instance.audio_handler.stop_speech()
-            tron_instance.speech_thread.join(timeout=2)
-            if tron_instance.speech_thread.is_alive():
-                logger.warning("Previous speech thread did not terminate gracefully after join.")
-
-        tron_instance.speech_thread = threading.Thread(target=tron_instance.audio_handler.speak, args=(text,))
-        tron_instance.speech_thread.daemon = True
-        tron_instance.speech_thread.start()
-        logger.info("New speech thread started.")
-
-        return jsonify({'status': 'success', 'message': 'Speech initiated.'})
+        return jsonify({
+            'status': 'success',
+            'message': 'Speech handled by frontend browser APIs',
+            'text': text
+        })
 
     except json.JSONDecodeError:
         logger.error("Failed to decode JSON from speech speak request.", exc_info=True)
@@ -550,20 +486,19 @@ def speech_speak():
         logger.critical(f"Error in /api/speech/speak: {str(e)}", exc_info=True)
         return jsonify({'error': f'Text-to-speech error: {str(e)}', 'status': 'error'}), 500
 
+
 @app.route('/api/speech/stop', methods=['POST'])
 def speech_stop():
     try:
-        logger.info("Received request to stop speech via API.")
-        tron_instance.audio_handler.stop_speech()
-        if tron_instance.speech_thread and tron_instance.speech_thread.is_alive():
-            tron_instance.speech_thread.join(timeout=3)
-            if tron_instance.speech_thread.is_alive():
-                logger.warning("Speech thread still alive after attempting to stop and join.")
-        logger.info("Speech stop command processed.")
-        return jsonify({'status': 'success', 'message': 'Speech stopping command issued.'})
+        logger.info("Stop speech request received (handled by frontend).")
+        return jsonify({
+            'status': 'success',
+            'message': 'Speech stop handled by frontend browser APIs'
+        })
     except Exception as e:
         logger.critical(f"Error in /api/speech/stop: {str(e)}", exc_info=True)
         return jsonify({'error': f'Error stopping speech: {str(e)}', 'status': 'error'}), 500
+
 
 @app.route('/api/history', methods=['GET'])
 def get_history():
@@ -592,6 +527,7 @@ def get_history():
         logger.critical(f"Unhandled error in /api/history: {str(e)}", exc_info=True)
         return jsonify({'error': f'Internal server error: {str(e)}', 'status': 'error'}), 500
 
+
 @app.route('/api/history/clear', methods=['POST'])
 def clear_history():
     try:
@@ -605,6 +541,7 @@ def clear_history():
     except Exception as e:
         logger.critical(f"Error clearing history: {str(e)}", exc_info=True)
         return jsonify({'error': f'Error clearing history: {str(e)}', 'status': 'error'}), 500
+
 
 @app.route('/api/upload', methods=['POST'])
 def upload_file():
@@ -656,28 +593,41 @@ def upload_file():
         logger.critical(f"Error in /api/upload: {str(e)}", exc_info=True)
         return jsonify({'error': f'File upload error: {str(e)}', 'status': 'error'}), 500
 
+
 @app.route('/api/status', methods=['GET'])
 def get_status():
-    speech_rec_status = 'available' if tron_instance.audio_handler.whisper_model else 'unavailable'
     ai_status = 'available' if tron_instance.response_handler.model else 'unavailable'
-    logger.debug(f"Current status - Speech recognition: {speech_rec_status}, AI: {ai_status}")
+    logger.debug(f"Current status - AI: {ai_status}")
     return jsonify({
         'status': 'online',
         'timestamp': datetime.now().isoformat(),
         'services': {
-            'speech_recognition': speech_rec_status,
-            'text_to_speech': 'available',
+            'speech_recognition': 'frontend_handled',
+            'text_to_speech': 'frontend_handled',
             'ai_processing': ai_status
         }
     })
 
+
+# Health check endpoint for Render
+@app.route('/health', methods=['GET'])
+def health_check():
+    return jsonify({
+        'status': 'healthy',
+        'timestamp': datetime.now().isoformat(),
+        'port': os.environ.get('PORT', 'unknown')
+    })
+
+
 @app.errorhandler(400)
 def bad_request(error):
-    logger.error(f"400 Bad Request: {error.description if hasattr(error, 'description') else str(error)}", exc_info=True)
+    logger.error(f"400 Bad Request: {error.description if hasattr(error, 'description') else str(error)}",
+                 exc_info=True)
     return jsonify({
         'error': error.description if hasattr(error, 'description') else 'Bad request',
         'status': 'error'
     }), 400
+
 
 @app.errorhandler(404)
 def not_found(error):
@@ -687,15 +637,19 @@ def not_found(error):
         'status': 'error'
     }), 404
 
+
 @app.errorhandler(500)
 def internal_error(error):
-    logger.critical(f"500 Internal Server Error: {error.description if hasattr(error, 'description') else str(error)}", exc_info=True)
+    logger.critical(f"500 Internal Server Error: {error.description if hasattr(error, 'description') else str(error)}",
+                    exc_info=True)
     return jsonify({
         'error': 'Internal server error. Please try again later.',
         'status': 'error'
     }), 500
 
+
 def initialize_history_file():
+    """Initialize history file with header if it doesn't exist"""
     if not os.path.exists(HISTORY_FILE):
         try:
             with open(HISTORY_FILE, 'w', newline='', encoding='utf-8') as f:
@@ -705,18 +659,47 @@ def initialize_history_file():
         except IOError as e:
             logger.error(f"Failed to create history file '{HISTORY_FILE}': {e}", exc_info=True)
 
+
+def create_app():
+    """Application factory pattern for better deployment"""
+    initialize_history_file()
+
+    # Create projects directory if it doesn't exist
+    if not os.path.exists("projects"):
+        os.makedirs("projects", exist_ok=True)
+        logger.info("Created 'projects' directory.")
+
+    return app
+
+
 if __name__ == "__main__":
     try:
         initialize_history_file()
         if not os.path.exists("projects"):
             os.makedirs("projects", exist_ok=True)
             logger.info("Created 'projects' directory.")
-        logger.info("Starting TRON Assistant Flask server...")
-        logger.info("Frontend should be accessible at http://localhost:5000")
-        app.run(debug=False, host='0.0.0.0', port=5000, threaded=True)
+
+        # Enhanced port configuration for Render deployment
+        port = int(os.environ.get('PORT', os.environ.get('RENDER_PORT', 5000)))
+
+        # Check if running on Render or other production environment
+        is_production = os.environ.get('RENDER') or os.environ.get('RAILWAY_ENVIRONMENT') or os.environ.get(
+            'HEROKU_APP_NAME')
+
+        if is_production:
+            logger.info(f"Production environment detected. Using port {port}")
+            # Let gunicorn handle the app in production
+            logger.info("In production, this should be handled by gunicorn")
+        else:
+            # Local development
+            logger.info("Starting TRON Assistant Flask server for local development...")
+            logger.info(f"Server will be accessible on http://localhost:{port}")
+            app.run(debug=True, host='0.0.0.0', port=port, threaded=True)
+
     except KeyboardInterrupt:
         logger.info("Server interrupted by user (KeyboardInterrupt).")
         print("\nServer interrupted by user.")
     except Exception as e:
         logger.critical(f"Fatal server startup error: {e}", exc_info=True)
         print(f"Server error occurred: {e}")
+        sys.exit(1)
