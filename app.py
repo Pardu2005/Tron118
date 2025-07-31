@@ -31,7 +31,7 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 # Use environment variable for API key in production
-GOOGLE_API_KEY = "AIzaSyBfNHzwcjsHLOP4Y1z8zBRSGgeLjI4la3s"
+GOOGLE_API_KEY = "AIzaSyC-eEz4laooDegpAES5158fl2ILJ-UTOqQ"
 HISTORY_FILE = "tron_history.csv"
 MAX_HISTORY_ENTRIES = 1000  # Limit history file size
 
@@ -44,15 +44,17 @@ CORS(app, origins=["*"])  # Allow all origins for deployment, restrict in produc
 
 ALLOWED_EXTENSIONS = {'pdf', 'doc', 'docx'}
 
+
 class MockTkinter:
     def __init__(self, *args, **kwargs):
         pass
-    
+
     def __getattr__(self, name):
         return MockTkinter()
-    
+
     def __call__(self, *args, **kwargs):
         return MockTkinter()
+
 
 # Create mock modules
 mock_tk = MockTkinter()
@@ -87,13 +89,13 @@ class Config:
 
             # Configure Google AI with free tier settings
             genai.configure(api_key=GOOGLE_API_KEY)
-            
+
             # Test API key validity with minimal request
             try:
                 test_model = genai.GenerativeModel('gemini-1.5-flash')
                 # Use a very simple test to minimize quota usage
                 test_response = test_model.generate_content(
-                    "Hi", 
+                    "Hi",
                     generation_config=genai.types.GenerationConfig(
                         max_output_tokens=10,  # Minimal tokens for test
                         temperature=0.1
@@ -103,7 +105,7 @@ class Config:
             except Exception as test_e:
                 logger.warning(f"API test failed but continuing: {test_e}")
                 # Don't fail initialization if test fails - might be temporary
-                
+
         except Exception as e:
             logger.error(f"Failed to configure Google Generative AI: {e}", exc_info=True)
             # Don't call sys.exit() here - let the application handle the error gracefully
@@ -145,7 +147,7 @@ class ResponseHandler:
                 top_p=0.8,
                 top_k=40
             )
-            
+
             # Configure safety settings to be less restrictive for educational content
             safety_settings = [
                 {
@@ -165,7 +167,7 @@ class ResponseHandler:
                     "threshold": "BLOCK_MEDIUM_AND_ABOVE"
                 }
             ]
-            
+
             self.model = genai.GenerativeModel(
                 'gemini-1.5-flash',
                 generation_config=generation_config,
@@ -182,26 +184,26 @@ class ResponseHandler:
         if not self.model or not self.chat:
             logger.error("Generative model not initialized.")
             return "Error: AI service is unavailable. Please check server configuration."
-        
+
         max_retries = 3
         retry_delay = 2
-        
+
         for attempt in range(max_retries):
             try:
                 logger.debug(f"Sending prompt to Gemini (attempt {attempt + 1}): {prompt[:150]}...")
-                
+
                 # Add rate limiting delay between requests
                 if attempt > 0:
                     time.sleep(retry_delay * attempt)
-                
+
                 response = self.chat.send_message(prompt)
                 response_text = getattr(response, 'text', '').strip()
                 logger.debug(f"Received raw response from Gemini (first 150 chars): {response_text[:150]}...")
                 return response_text if response_text else "No meaningful response generated."
-                
+
             except Exception as e:
                 error_message = str(e).lower()
-                
+
                 # Handle quota exceeded errors
                 if 'quota' in error_message or 'limit' in error_message:
                     logger.error(f"Quota/Rate limit error (attempt {attempt + 1}): {e}")
@@ -212,16 +214,16 @@ class ResponseHandler:
                         continue
                     else:
                         return "Error: API quota exceeded. Please try again later or check your Google AI Studio quota."
-                
+
                 # Handle other API errors
                 elif 'safety' in error_message:
                     logger.warning(f"Safety filter triggered: {e}")
                     return "I cannot provide a response to this query due to safety guidelines. Please rephrase your question."
-                
+
                 elif 'invalid' in error_message and 'api' in error_message:
                     logger.error(f"Invalid API key error: {e}")
                     return "Error: Invalid API configuration. Please check the API key."
-                
+
                 else:
                     logger.error(f"Error getting response from Gemini (attempt {attempt + 1}): {e}", exc_info=True)
                     if attempt < max_retries - 1:
@@ -229,7 +231,7 @@ class ResponseHandler:
                         continue
                     else:
                         return f"Error: Failed to generate response after {max_retries} attempts. Please try again later."
-        
+
         return "Error: Maximum retry attempts reached. Please try again later."
 
 
@@ -561,7 +563,8 @@ def process_query():
     try:
         if not tron_instance:
             logger.error("TRON instance not available.")
-            return jsonify({'error': 'Service temporarily unavailable. Please try again later.', 'status': 'error'}), 503
+            return jsonify(
+                {'error': 'Service temporarily unavailable. Please try again later.', 'status': 'error'}), 503
 
         data = request.get_json()
         if not data:
@@ -656,7 +659,7 @@ def speech_speak():
         if not data:
             logger.warning("No JSON data received for speech speak request.")
             return jsonify({'error': 'No JSON data received', 'status': 'error'}), 400
-            
+
         text = data.get('text', '')
 
         if not text:
@@ -823,7 +826,7 @@ def not_found(error):
 @app.errorhandler(500)
 def internal_error(error):
     logger.error(f"500 Internal Server Error: {error.description if hasattr(error, 'description') else str(error)}",
-                    exc_info=True)
+                 exc_info=True)
     return jsonify({
         'error': 'Internal server error. Please try again later.',
         'status': 'error'
@@ -846,10 +849,10 @@ if __name__ == "__main__":
     try:
         # Enhanced port configuration for Render deployment
         port = int(os.environ.get('PORT', 10000))
-        
+
         logger.info("Starting TRON Assistant Flask server...")
         logger.info(f"Server will be accessible on port: {port}")
-        
+
         # Always run the app directly for better port binding
         app.run(debug=False, host='0.0.0.0', port=port, threaded=True)
 
