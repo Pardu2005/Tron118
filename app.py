@@ -30,7 +30,7 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 # Use environment variable for API key in production
-GOOGLE_API_KEY = os.environ.get('GOOGLE_API_KEY', "AIzaSyBfNHzwcjsHLOP4Y1z8zBRSGgeLjI4la3s")
+GOOGLE_API_KEY = "AIzaSyBfNHzwcjsHLOP4Y1z8zBRSGgeLjI4la3s"
 HISTORY_FILE = "tron_history.csv"
 MAX_HISTORY_ENTRIES = 1000  # Limit history file size
 
@@ -63,7 +63,8 @@ class Config:
             logger.info("Google Generative AI configured successfully.")
         except Exception as e:
             logger.error(f"Failed to configure Google Generative AI: {e}", exc_info=True)
-            sys.exit(1)
+            # Don't call sys.exit() here - let the application handle the error gracefully
+            raise e
 
 
 class AudioHandler:
@@ -119,10 +120,18 @@ class ResponseHandler:
 
 class TRONAssistant:
     def __init__(self):
-        self.config = Config()
-        self.audio_handler = AudioHandler(self.config)
-        self.response_handler = ResponseHandler()
-        self.speech_thread: Optional[threading.Thread] = None
+        try:
+            self.config = Config()
+            self.audio_handler = AudioHandler(self.config)
+            self.response_handler = ResponseHandler()
+            self.speech_thread: Optional[threading.Thread] = None
+        except Exception as e:
+            logger.error(f"Failed to initialize TRONAssistant: {e}", exc_info=True)
+            # Create a fallback configuration
+            self.config = None
+            self.audio_handler = None
+            self.response_handler = ResponseHandler()  # Try to at least initialize this
+            self.speech_thread = None
 
     def save_history(self, mode: str, query: str, response: str):
         try:
@@ -245,6 +254,7 @@ class TRONAssistant:
                     ('a)', 'b)', 'c)', 'd)')):
                 question_count += 1
                 if question_count > 1:
+                    formatted_lines.append('</div>')  # Close previous question block
                     formatted_lines.append(
                         '<div class="question-block mt-6 p-3 bg-gray-700 rounded border border-cyan-500">')
                 else:
@@ -267,11 +277,11 @@ class TRONAssistant:
 
     def _format_explanation_content(self, content: str) -> str:
         try:
-            content = re.sub(r'\*\*(.*?)\*\*', r'<strong class="text-purple-300">\\1</strong>', content)
-            content = re.sub(r'\*(.*?)\*', r'<em class="text-purple-200">\\1</em>', content)
-            content = re.sub(r'`(.*?)`', r'<code class="bg-gray-700 px-2 py-1 rounded text-purple-200">\\1</code>',
+            content = re.sub(r'\*\*(.*?)\*\*', r'<strong class="text-purple-300">\1</strong>', content)
+            content = re.sub(r'\*(.*?)\*', r'<em class="text-purple-200">\1</em>', content)
+            content = re.sub(r'`(.*?)`', r'<code class="bg-gray-700 px-2 py-1 rounded text-purple-200">\1</code>',
                              content)
-            content = re.sub(r'^- (.+)$', r'<li><p>\\1</p></li>', content, flags=re.MULTILINE)
+            content = re.sub(r'^- (.+)$', r'<li><p>\1</p></li>', content, flags=re.MULTILINE)
             if '<li>' in content:
                 content = f'<ul class="list-disc list-inside mt-3 text-gray-200">{content}</ul>'
             content_parts = content.split('\n\n')
@@ -369,20 +379,29 @@ def initialize_history_file():
 # Initialize required files and directories
 def setup_app():
     """Setup function called at module level"""
-    initialize_history_file()
-    if not os.path.exists("projects"):
-        os.makedirs("projects", exist_ok=True)
-        logger.info("Created 'projects' directory.")
-    if not os.path.exists(UPLOAD_FOLDER):
-        os.makedirs(UPLOAD_FOLDER, exist_ok=True)
-        logger.info("Created uploads directory.")
+    try:
+        initialize_history_file()
+        if not os.path.exists("projects"):
+            os.makedirs("projects", exist_ok=True)
+            logger.info("Created 'projects' directory.")
+        if not os.path.exists(UPLOAD_FOLDER):
+            os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+            logger.info("Created uploads directory.")
+    except Exception as e:
+        logger.error(f"Error during app setup: {e}", exc_info=True)
 
 
 # Setup app immediately when module is imported
 setup_app()
 
-# Initialize the TRON instance
-tron_instance = TRONAssistant()
+# Initialize the TRON instance with error handling
+try:
+    tron_instance = TRONAssistant()
+    logger.info("TRON Assistant initialized successfully.")
+except Exception as e:
+    logger.error(f"Failed to initialize TRON Assistant: {e}", exc_info=True)
+    # Create a minimal fallback instance
+    tron_instance = None
 
 
 @app.route('/')
@@ -411,7 +430,8 @@ def health_check():
         'status': 'healthy',
         'timestamp': datetime.now().isoformat(),
         'port': os.environ.get('PORT', 'unknown'),
-        'message': 'TRON Assistant is running'
+        'message': 'TRON Assistant is running',
+        'tron_status': 'initialized' if tron_instance else 'failed'
     })
 
 
@@ -424,6 +444,10 @@ def ping():
 @app.route('/api/process', methods=['POST'])
 def process_query():
     try:
+        if not tron_instance:
+            logger.error("TRON instance not available.")
+            return jsonify({'error': 'Service temporarily unavailable. Please try again later.', 'status': 'error'}), 503
+
         data = request.get_json()
         if not data:
             logger.warning("Received /api/process request with no JSON data.")
@@ -463,7 +487,7 @@ def process_query():
         raw_response = ""
         try:
             raw_response = handler(tron_instance.response_handler.chat, query)
-            if not raw_response.strip():
+            if not raw_response or not raw_response.strip():
                 logger.warning("AI raw_response is empty or only whitespace.")
                 raw_response = "No meaningful response generated by the AI. Please try a different query."
         except Exception as ai_e:
@@ -488,7 +512,7 @@ def process_query():
         logger.error("Failed to decode JSON from request.")
         return jsonify({'error': 'Invalid JSON format', 'status': 'error'}), 400
     except Exception as e:
-        logger.critical(f"Unhandled error in /api/process: {str(e)}", exc_info=True)
+        logger.error(f"Unhandled error in /api/process: {str(e)}", exc_info=True)
         return jsonify({'error': f'Internal server error: {str(e)}', 'status': 'error'}), 500
 
 
@@ -502,7 +526,7 @@ def speech_listen():
             'message': 'Use browser Web Speech API for audio input'
         }), 200
     except Exception as e:
-        logger.critical(f"Error in /api/speech/listen: {str(e)}", exc_info=True)
+        logger.error(f"Error in /api/speech/listen: {str(e)}", exc_info=True)
         return jsonify({'error': f'Speech recognition error: {str(e)}', 'status': 'error'}), 500
 
 
@@ -510,6 +534,10 @@ def speech_listen():
 def speech_speak():
     try:
         data = request.get_json()
+        if not data:
+            logger.warning("No JSON data received for speech speak request.")
+            return jsonify({'error': 'No JSON data received', 'status': 'error'}), 400
+            
         text = data.get('text', '')
 
         if not text:
@@ -528,7 +556,7 @@ def speech_speak():
         logger.error("Failed to decode JSON from speech speak request.", exc_info=True)
         return jsonify({'error': 'Invalid JSON format', 'status': 'error'}), 400
     except Exception as e:
-        logger.critical(f"Error in /api/speech/speak: {str(e)}", exc_info=True)
+        logger.error(f"Error in /api/speech/speak: {str(e)}", exc_info=True)
         return jsonify({'error': f'Text-to-speech error: {str(e)}', 'status': 'error'}), 500
 
 
@@ -541,7 +569,7 @@ def speech_stop():
             'message': 'Speech stop handled by frontend browser APIs'
         })
     except Exception as e:
-        logger.critical(f"Error in /api/speech/stop: {str(e)}", exc_info=True)
+        logger.error(f"Error in /api/speech/stop: {str(e)}", exc_info=True)
         return jsonify({'error': f'Error stopping speech: {str(e)}', 'status': 'error'}), 500
 
 
@@ -569,7 +597,7 @@ def get_history():
         logger.error(f"Failed to read history file: {e}", exc_info=True)
         return jsonify({'error': 'Failed to load history', 'status': 'error'}), 500
     except Exception as e:
-        logger.critical(f"Unhandled error in /api/history: {str(e)}", exc_info=True)
+        logger.error(f"Unhandled error in /api/history: {str(e)}", exc_info=True)
         return jsonify({'error': f'Internal server error: {str(e)}', 'status': 'error'}), 500
 
 
@@ -584,7 +612,7 @@ def clear_history():
             logger.info("History file did not exist, no action needed for clear.")
         return jsonify({'status': 'success', 'message': 'History cleared.'})
     except Exception as e:
-        logger.critical(f"Error clearing history: {str(e)}", exc_info=True)
+        logger.error(f"Error clearing history: {str(e)}", exc_info=True)
         return jsonify({'error': f'Error clearing history: {str(e)}', 'status': 'error'}), 500
 
 
@@ -635,13 +663,13 @@ def upload_file():
             return jsonify({'error': 'Invalid file type. Allowed: pdf, doc, docx.', 'status': 'error'}), 400
 
     except Exception as e:
-        logger.critical(f"Error in /api/upload: {str(e)}", exc_info=True)
+        logger.error(f"Error in /api/upload: {str(e)}", exc_info=True)
         return jsonify({'error': f'File upload error: {str(e)}', 'status': 'error'}), 500
 
 
 @app.route('/api/status', methods=['GET'])
 def get_status():
-    ai_status = 'available' if tron_instance.response_handler.model else 'unavailable'
+    ai_status = 'available' if tron_instance and tron_instance.response_handler.model else 'unavailable'
     logger.debug(f"Current status - AI: {ai_status}")
     return jsonify({
         'status': 'online',
@@ -675,7 +703,7 @@ def not_found(error):
 
 @app.errorhandler(500)
 def internal_error(error):
-    logger.critical(f"500 Internal Server Error: {error.description if hasattr(error, 'description') else str(error)}",
+    logger.error(f"500 Internal Server Error: {error.description if hasattr(error, 'description') else str(error)}",
                     exc_info=True)
     return jsonify({
         'error': 'Internal server error. Please try again later.',
@@ -710,6 +738,8 @@ if __name__ == "__main__":
         logger.info("Server interrupted by user (KeyboardInterrupt).")
         print("\nServer interrupted by user.")
     except Exception as e:
-        logger.critical(f"Fatal server startup error: {e}", exc_info=True)
+        logger.error(f"Fatal server startup error: {e}", exc_info=True)
         print(f"Server error occurred: {e}")
-        sys.exit(1)
+        # Only exit when running directly, not when imported by Gunicorn
+        if __name__ == "__main__":
+            sys.exit(1)
