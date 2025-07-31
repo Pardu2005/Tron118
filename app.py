@@ -85,11 +85,25 @@ class Config:
                 logger.error("GOOGLE_API_KEY environment variable not set")
                 raise ValueError("GOOGLE_API_KEY is required")
 
+            # Configure Google AI with free tier settings
             genai.configure(api_key=GOOGLE_API_KEY)
-            # Test API key validity
-            test_model = genai.GenerativeModel('gemini-1.5-flash')
-            test_model.generate_content("Test")  # Simple test call
-            logger.info("Google Generative AI configured successfully.")
+            
+            # Test API key validity with minimal request
+            try:
+                test_model = genai.GenerativeModel('gemini-1.5-flash')
+                # Use a very simple test to minimize quota usage
+                test_response = test_model.generate_content(
+                    "Hi", 
+                    generation_config=genai.types.GenerationConfig(
+                        max_output_tokens=10,  # Minimal tokens for test
+                        temperature=0.1
+                    )
+                )
+                logger.info("Google Generative AI configured successfully with free tier.")
+            except Exception as test_e:
+                logger.warning(f"API test failed but continuing: {test_e}")
+                # Don't fail initialization if test fails - might be temporary
+                
         except Exception as e:
             logger.error(f"Failed to configure Google Generative AI: {e}", exc_info=True)
             # Don't call sys.exit() here - let the application handle the error gracefully
@@ -124,9 +138,41 @@ class AudioHandler:
 class ResponseHandler:
     def __init__(self):
         try:
-            self.model = genai.GenerativeModel('gemini-1.5-flash')
+            # Configure model with free tier optimized settings
+            generation_config = genai.types.GenerationConfig(
+                max_output_tokens=1000,  # Reduced for free tier
+                temperature=0.7,
+                top_p=0.8,
+                top_k=40
+            )
+            
+            # Configure safety settings to be less restrictive for educational content
+            safety_settings = [
+                {
+                    "category": "HARM_CATEGORY_HARASSMENT",
+                    "threshold": "BLOCK_MEDIUM_AND_ABOVE"
+                },
+                {
+                    "category": "HARM_CATEGORY_HATE_SPEECH",
+                    "threshold": "BLOCK_MEDIUM_AND_ABOVE"
+                },
+                {
+                    "category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+                    "threshold": "BLOCK_MEDIUM_AND_ABOVE"
+                },
+                {
+                    "category": "HARM_CATEGORY_DANGEROUS_CONTENT",
+                    "threshold": "BLOCK_MEDIUM_AND_ABOVE"
+                }
+            ]
+            
+            self.model = genai.GenerativeModel(
+                'gemini-1.5-flash',
+                generation_config=generation_config,
+                safety_settings=safety_settings
+            )
             self.chat = self.model.start_chat(history=[])
-            logger.info("Gemini GenerativeModel and chat initialized.")
+            logger.info("Gemini GenerativeModel and chat initialized with free tier settings.")
         except Exception as e:
             logger.error(f"Failed to initialize Gemini GenerativeModel: {e}", exc_info=True)
             self.model = None
@@ -136,15 +182,55 @@ class ResponseHandler:
         if not self.model or not self.chat:
             logger.error("Generative model not initialized.")
             return "Error: AI service is unavailable. Please check server configuration."
-        try:
-            logger.debug(f"Sending prompt to Gemini: {prompt[:150]}...")
-            response = self.chat.send_message(prompt)
-            response_text = getattr(response, 'text', '').strip()
-            logger.debug(f"Received raw response from Gemini (first 150 chars): {response_text[:150]}...")
-            return response_text if response_text else "No meaningful response generated."
-        except Exception as e:
-            logger.error(f"Error getting response from Gemini: {e}", exc_info=True)
-            return f"Error: Failed to generate response: {str(e)}"
+        
+        max_retries = 3
+        retry_delay = 2
+        
+        for attempt in range(max_retries):
+            try:
+                logger.debug(f"Sending prompt to Gemini (attempt {attempt + 1}): {prompt[:150]}...")
+                
+                # Add rate limiting delay between requests
+                if attempt > 0:
+                    time.sleep(retry_delay * attempt)
+                
+                response = self.chat.send_message(prompt)
+                response_text = getattr(response, 'text', '').strip()
+                logger.debug(f"Received raw response from Gemini (first 150 chars): {response_text[:150]}...")
+                return response_text if response_text else "No meaningful response generated."
+                
+            except Exception as e:
+                error_message = str(e).lower()
+                
+                # Handle quota exceeded errors
+                if 'quota' in error_message or 'limit' in error_message:
+                    logger.error(f"Quota/Rate limit error (attempt {attempt + 1}): {e}")
+                    if attempt < max_retries - 1:
+                        wait_time = retry_delay * (2 ** attempt)  # Exponential backoff
+                        logger.info(f"Retrying in {wait_time} seconds...")
+                        time.sleep(wait_time)
+                        continue
+                    else:
+                        return "Error: API quota exceeded. Please try again later or check your Google AI Studio quota."
+                
+                # Handle other API errors
+                elif 'safety' in error_message:
+                    logger.warning(f"Safety filter triggered: {e}")
+                    return "I cannot provide a response to this query due to safety guidelines. Please rephrase your question."
+                
+                elif 'invalid' in error_message and 'api' in error_message:
+                    logger.error(f"Invalid API key error: {e}")
+                    return "Error: Invalid API configuration. Please check the API key."
+                
+                else:
+                    logger.error(f"Error getting response from Gemini (attempt {attempt + 1}): {e}", exc_info=True)
+                    if attempt < max_retries - 1:
+                        time.sleep(retry_delay)
+                        continue
+                    else:
+                        return f"Error: Failed to generate response after {max_retries} attempts. Please try again later."
+        
+        return "Error: Maximum retry attempts reached. Please try again later."
 
 
 class TRONAssistant:
@@ -521,7 +607,11 @@ def process_query():
                 raw_response = "No meaningful response generated by the AI. Please try a different query."
         except Exception as ai_e:
             logger.error(f"Error during AI handler call for mode {mode}: {ai_e}", exc_info=True)
-            raw_response = f"AI processing error: {str(ai_e)}. Please try again or contact support."
+            error_msg = str(ai_e).lower()
+            if 'quota' in error_msg or 'limit' in error_msg:
+                raw_response = "API quota exceeded. Please try again later or check your Google AI Studio quota limits."
+            else:
+                raw_response = f"AI processing error: {str(ai_e)}. Please try again or contact support."
 
         formatted_response = tron_instance.format_response_for_web(raw_response, mode)
         tron_instance.save_history(mode_name, query, raw_response)
