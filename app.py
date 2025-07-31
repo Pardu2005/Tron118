@@ -13,6 +13,7 @@ from flask import Flask, request, jsonify, send_from_directory, abort
 from flask_cors import CORS
 import json
 from datetime import datetime
+from unittest.mock import MagicMock
 
 # Import features
 from features import doubt_solver, quiz_generator, code_debugger, resume_analyzer
@@ -42,6 +43,34 @@ app = Flask(__name__, static_folder='.')
 CORS(app, origins=["*"])  # Allow all origins for deployment, restrict in production
 
 ALLOWED_EXTENSIONS = {'pdf', 'doc', 'docx'}
+
+class MockTkinter:
+    def __init__(self, *args, **kwargs):
+        pass
+    
+    def __getattr__(self, name):
+        return MockTkinter()
+    
+    def __call__(self, *args, **kwargs):
+        return MockTkinter()
+
+# Create mock modules
+mock_tk = MockTkinter()
+mock_tk.Tk = MockTkinter
+mock_tk.filedialog = MockTkinter()
+mock_tk.filedialog.askopenfilename = lambda **kwargs: None
+mock_tk.messagebox = MockTkinter()
+
+# Mock all tkinter-related modules
+sys.modules['tkinter'] = mock_tk
+sys.modules['tkinter.filedialog'] = mock_tk.filedialog
+sys.modules['tkinter.messagebox'] = mock_tk.messagebox
+sys.modules['tkinter.ttk'] = mock_tk
+sys.modules['tkinter.font'] = mock_tk
+sys.modules['tkinter.constants'] = mock_tk
+sys.modules['_tkinter'] = mock_tk
+
+print("Tkinter modules mocked for web deployment")
 
 
 @dataclass
