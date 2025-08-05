@@ -502,3 +502,217 @@
 2025-07-31 11:58:45,366 - INFO - History saved successfully.
 2025-07-31 11:58:45,366 - INFO - Successfully processed Resume Analyzer request. Final response length: 4386.
 2025-07-31 11:58:45,367 - INFO - 127.0.0.1 - - [31/Jul/2025 11:58:45] "POST /api/process HTTP/1.1" 200 -
+2025-07-31 14:41:47,973 - INFO - Google Generative AI configured successfully with free tier.
+2025-07-31 14:41:47,974 - INFO - Audio features disabled for web deployment.
+2025-07-31 14:41:47,974 - INFO - Gemini GenerativeModel and chat initialized with free tier settings.
+2025-07-31 14:41:47,974 - INFO - TRON Assistant initialized successfully.
+2025-07-31 14:41:47,982 - INFO - Starting TRON Assistant Flask server...
+2025-07-31 14:41:47,982 - INFO - Server will be accessible on port: 10000
+2025-07-31 14:41:47,992 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:10000
+ * Running on http://10.104.21.128:10000
+2025-07-31 14:41:47,992 - INFO - [33mPress CTRL+C to quit[0m
+2025-07-31 14:41:51,615 - INFO - Serving index.html
+2025-07-31 14:41:51,671 - INFO - 127.0.0.1 - - [31/Jul/2025 14:41:51] "GET / HTTP/1.1" 200 -
+2025-07-31 14:41:52,288 - INFO - 127.0.0.1 - - [31/Jul/2025 14:41:52] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-07-31 14:41:53,280 - INFO - 127.0.0.1 - - [31/Jul/2025 14:41:53] "GET /api/status HTTP/1.1" 200 -
+2025-07-31 14:42:07,236 - INFO - Processing request - Mode: quiz, Query: quiz on f1 racing..., Input Mode: text
+2025-07-31 14:42:10,149 - INFO - History saved successfully.
+2025-07-31 14:42:10,149 - INFO - Successfully processed Quiz Generator request. Final response length: 1074.
+2025-07-31 14:42:10,165 - INFO - 127.0.0.1 - - [31/Jul/2025 14:42:10] "POST /api/process HTTP/1.1" 200 -
+2025-07-31 14:42:34,412 - INFO - Processing request - Mode: doubt, Query: tell me the history of animation effects..., Input Mode: text
+2025-07-31 14:42:39,334 - INFO - History saved successfully.
+2025-07-31 14:42:39,336 - INFO - Successfully processed Doubt Solver request. Final response length: 1980.
+2025-07-31 14:42:39,336 - INFO - 127.0.0.1 - - [31/Jul/2025 14:42:39] "POST /api/process HTTP/1.1" 200 -
+2025-07-31 14:43:52,458 - INFO - Processing request - Mode: code, Query: # Assigning different data types to variables
+name = "Alice"  # String
+age = 30        # Integer
+hei..., Input Mode: text
+2025-07-31 14:43:56,446 - INFO - History saved successfully.
+2025-07-31 14:43:56,446 - INFO - Successfully processed Code Debugger request. Final response length: 1364.
+2025-07-31 14:43:56,446 - INFO - 127.0.0.1 - - [31/Jul/2025 14:43:56] "POST /api/process HTTP/1.1" 200 -
+2025-07-31 14:44:07,926 - INFO - File uploaded successfully: Raju's resume (1) (1).pdf
+2025-07-31 14:44:08,470 - INFO - Text extracted from resume file: Raju's resume (1) (1).pdf
+2025-07-31 14:44:08,470 - INFO - 127.0.0.1 - - [31/Jul/2025 14:44:08] "POST /api/upload HTTP/1.1" 200 -
+2025-07-31 14:44:09,986 - INFO - Processing request - Mode: resume, Query: ..., Input Mode: text
+2025-07-31 14:44:15,566 - INFO - History saved successfully.
+2025-07-31 14:44:15,566 - INFO - Successfully processed Resume Analyzer request. Final response length: 2905.
+2025-07-31 14:44:15,566 - INFO - 127.0.0.1 - - [31/Jul/2025 14:44:15] "POST /api/process HTTP/1.1" 200 -
+2025-07-31 14:44:25,231 - INFO - Processing request - Mode: resume, Query: tell me the resume highlights..., Input Mode: text
+2025-07-31 14:44:29,316 - INFO - History saved successfully.
+2025-07-31 14:44:29,316 - INFO - Successfully processed Resume Analyzer request. Final response length: 2181.
+2025-07-31 14:44:29,316 - INFO - 127.0.0.1 - - [31/Jul/2025 14:44:29] "POST /api/process HTTP/1.1" 200 -
+2025-07-31 14:44:35,466 - INFO - History loaded: 20 entries.
+2025-07-31 14:44:35,482 - INFO - 127.0.0.1 - - [31/Jul/2025 14:44:35] "GET /api/history HTTP/1.1" 200 -
+2025-08-03 21:08:32,974 - INFO - Google Generative AI configured successfully with free tier.
+2025-08-03 21:08:32,974 - INFO - Audio features disabled for web deployment.
+2025-08-03 21:08:32,974 - INFO - Gemini GenerativeModel and chat initialized with free tier settings.
+2025-08-03 21:08:32,974 - INFO - TRON Assistant initialized successfully.
+2025-08-03 21:08:32,978 - INFO - Starting TRON Assistant Flask server...
+2025-08-03 21:08:32,979 - INFO - Server will be accessible on port: 10000
+2025-08-03 21:08:32,986 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:10000
+ * Running on http://10.56.105.128:10000
+2025-08-03 21:08:32,986 - INFO - [33mPress CTRL+C to quit[0m
+2025-08-03 21:08:41,804 - INFO - Serving index.html
+2025-08-03 21:08:41,928 - INFO - 127.0.0.1 - - [03/Aug/2025 21:08:41] "GET / HTTP/1.1" 200 -
+2025-08-03 21:08:42,926 - INFO - 127.0.0.1 - - [03/Aug/2025 21:08:42] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-08-03 21:08:43,909 - INFO - 127.0.0.1 - - [03/Aug/2025 21:08:43] "GET /api/status HTTP/1.1" 200 -
+2025-08-03 21:08:59,831 - INFO - File uploaded successfully: Raju's resume (1) (1).pdf
+2025-08-03 21:09:00,377 - INFO - Text extracted from resume file: Raju's resume (1) (1).pdf
+2025-08-03 21:09:00,377 - INFO - 127.0.0.1 - - [03/Aug/2025 21:09:00] "POST /api/upload HTTP/1.1" 200 -
+2025-08-03 21:09:01,896 - INFO - Processing request - Mode: resume, Query: ..., Input Mode: text
+2025-08-03 21:09:03,734 - INFO - History saved successfully.
+2025-08-03 21:09:03,734 - INFO - Successfully processed Resume Analyzer request. Final response length: 143.
+2025-08-03 21:09:03,734 - INFO - 127.0.0.1 - - [03/Aug/2025 21:09:03] "POST /api/process HTTP/1.1" 200 -
+2025-08-03 21:09:41,585 - INFO - Processing request - Mode: resume, Query: what are the key highlights and correctios in the resume..., Input Mode: text
+2025-08-03 21:09:47,528 - INFO - History saved successfully.
+2025-08-03 21:09:47,528 - INFO - Successfully processed Resume Analyzer request. Final response length: 3592.
+2025-08-03 21:09:47,528 - INFO - 127.0.0.1 - - [03/Aug/2025 21:09:47] "POST /api/process HTTP/1.1" 200 -
+2025-08-03 21:12:11,450 - INFO - Google Generative AI configured successfully with free tier.
+2025-08-03 21:12:11,451 - INFO - Audio features disabled for web deployment.
+2025-08-03 21:12:11,451 - INFO - Gemini GenerativeModel and chat initialized with free tier settings.
+2025-08-03 21:12:11,451 - INFO - TRON Assistant initialized successfully.
+2025-08-03 21:12:11,456 - INFO - Starting TRON Assistant Flask server...
+2025-08-03 21:12:11,456 - INFO - Server will be accessible on port: 10000
+2025-08-03 21:12:11,462 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:10000
+ * Running on http://10.56.105.128:10000
+2025-08-03 21:12:11,462 - INFO - [33mPress CTRL+C to quit[0m
+2025-08-03 21:12:15,131 - INFO - Serving index.html
+2025-08-03 21:12:15,198 - INFO - 127.0.0.1 - - [03/Aug/2025 21:12:15] "[36mGET / HTTP/1.1[0m" 304 -
+2025-08-03 21:12:15,486 - INFO - 127.0.0.1 - - [03/Aug/2025 21:12:15] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-08-03 21:12:16,476 - INFO - 127.0.0.1 - - [03/Aug/2025 21:12:16] "GET /api/status HTTP/1.1" 200 -
+2025-08-03 21:12:35,078 - INFO - Processing request - Mode: doubt, Query: explain about the industries..., Input Mode: text
+2025-08-03 21:12:38,544 - INFO - History saved successfully.
+2025-08-03 21:12:38,544 - INFO - Successfully processed Doubt Solver request. Final response length: 1930.
+2025-08-03 21:12:38,546 - INFO - 127.0.0.1 - - [03/Aug/2025 21:12:38] "POST /api/process HTTP/1.1" 200 -
+2025-08-05 20:11:42,735 - INFO - Google Generative AI configured successfully with free tier.
+2025-08-05 20:11:42,735 - INFO - Audio features disabled for web deployment.
+2025-08-05 20:11:42,736 - INFO - Gemini GenerativeModel and chat initialized with free tier settings.
+2025-08-05 20:11:42,736 - INFO - TRON Assistant initialized successfully.
+2025-08-05 20:11:42,740 - INFO - Starting TRON Assistant Flask server...
+2025-08-05 20:11:42,740 - INFO - Server will be accessible on port: 10000
+2025-08-05 20:11:42,749 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:10000
+ * Running on http://10.56.105.128:10000
+2025-08-05 20:11:42,749 - INFO - [33mPress CTRL+C to quit[0m
+2025-08-05 20:11:47,257 - INFO - Serving index.html
+2025-08-05 20:11:47,382 - INFO - 127.0.0.1 - - [05/Aug/2025 20:11:47] "[36mGET / HTTP/1.1[0m" 304 -
+2025-08-05 20:11:47,952 - INFO - 127.0.0.1 - - [05/Aug/2025 20:11:47] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-08-05 20:11:48,930 - INFO - 127.0.0.1 - - [05/Aug/2025 20:11:48] "GET /api/status HTTP/1.1" 200 -
+2025-08-05 20:11:57,909 - INFO - Processing request - Mode: quiz, Query: quiz on AI..., Input Mode: text
+2025-08-05 20:12:04,478 - INFO - History saved successfully.
+2025-08-05 20:12:04,479 - INFO - Successfully processed Quiz Generator request. Final response length: 1933.
+2025-08-05 20:12:04,481 - INFO - 127.0.0.1 - - [05/Aug/2025 20:12:04] "POST /api/process HTTP/1.1" 200 -
+2025-08-05 20:12:53,023 - INFO - Processing request - Mode: doubt, Query: explain about AI..., Input Mode: text
+2025-08-05 20:13:13,471 - INFO - History saved successfully.
+2025-08-05 20:13:13,471 - INFO - Successfully processed Doubt Solver request. Final response length: 1329.
+2025-08-05 20:13:13,477 - INFO - 127.0.0.1 - - [05/Aug/2025 20:13:13] "POST /api/process HTTP/1.1" 200 -
+2025-08-05 20:26:36,468 - INFO - Google Generative AI configured successfully with free tier.
+2025-08-05 20:26:36,469 - INFO - Audio features disabled for web deployment.
+2025-08-05 20:26:36,469 - INFO - Gemini GenerativeModel and chat initialized with free tier settings.
+2025-08-05 20:26:36,469 - INFO - TRON Assistant initialized successfully.
+2025-08-05 20:26:36,478 - INFO - Starting TRON Assistant Flask server...
+2025-08-05 20:26:36,479 - INFO - Server will be accessible on port: 10000
+2025-08-05 20:26:36,488 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:10000
+ * Running on http://10.56.105.128:10000
+2025-08-05 20:26:36,488 - INFO - [33mPress CTRL+C to quit[0m
+2025-08-05 20:26:57,613 - INFO - Serving index.html
+2025-08-05 20:26:57,676 - INFO - 127.0.0.1 - - [05/Aug/2025 20:26:57] "[36mGET / HTTP/1.1[0m" 304 -
+2025-08-05 20:26:57,985 - INFO - 127.0.0.1 - - [05/Aug/2025 20:26:57] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-08-05 20:26:58,896 - INFO - 127.0.0.1 - - [05/Aug/2025 20:26:58] "GET /api/status HTTP/1.1" 200 -
+2025-08-05 20:27:44,522 - INFO - Processing request - Mode: doubt, Query: explain about the cloud..., Input Mode: text
+2025-08-05 20:27:47,945 - INFO - History saved successfully.
+2025-08-05 20:27:47,945 - INFO - Successfully processed Doubt Solver request. Final response length: 1618.
+2025-08-05 20:27:47,945 - INFO - 127.0.0.1 - - [05/Aug/2025 20:27:47] "POST /api/process HTTP/1.1" 200 -
+2025-08-05 20:43:28,371 - INFO - Google Generative AI configured successfully with free tier.
+2025-08-05 20:43:28,372 - INFO - Audio features disabled for web deployment.
+2025-08-05 20:43:28,372 - INFO - Gemini GenerativeModel and chat initialized with free tier settings.
+2025-08-05 20:43:28,373 - INFO - TRON Assistant initialized successfully.
+2025-08-05 20:43:28,379 - INFO - Starting TRON Assistant Flask server...
+2025-08-05 20:43:28,380 - INFO - Server will be accessible on port: 10000
+2025-08-05 20:43:28,385 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:10000
+ * Running on http://10.56.105.128:10000
+2025-08-05 20:43:28,386 - INFO - [33mPress CTRL+C to quit[0m
+2025-08-05 20:43:35,601 - INFO - Serving index.html
+2025-08-05 20:43:35,649 - INFO - 127.0.0.1 - - [05/Aug/2025 20:43:35] "GET / HTTP/1.1" 200 -
+2025-08-05 20:43:36,601 - INFO - 127.0.0.1 - - [05/Aug/2025 20:43:36] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-08-05 20:43:37,585 - INFO - 127.0.0.1 - - [05/Aug/2025 20:43:37] "GET /api/status HTTP/1.1" 200 -
+2025-08-05 20:44:26,356 - INFO - Processing request - Mode: doubt, Query: tell me about weather report calculation..., Input Mode: text
+2025-08-05 20:44:30,408 - INFO - History saved successfully.
+2025-08-05 20:44:30,408 - INFO - Successfully processed Doubt Solver request. Final response length: 2355.
+2025-08-05 20:44:30,410 - INFO - 127.0.0.1 - - [05/Aug/2025 20:44:30] "POST /api/process HTTP/1.1" 200 -
+2025-08-05 20:45:15,557 - INFO - Processing request - Mode: quiz, Query: quiz on AI..., Input Mode: text
+2025-08-05 20:45:19,654 - INFO - History saved successfully.
+2025-08-05 20:45:19,654 - INFO - Successfully processed Quiz Generator request. Final response length: 1509.
+2025-08-05 20:45:19,654 - INFO - 127.0.0.1 - - [05/Aug/2025 20:45:19] "POST /api/process HTTP/1.1" 200 -
+2025-08-05 20:46:25,632 - INFO - Processing request - Mode: code, Query: fallback_content = re.sub(r^\* (.+)', r'<div class="mt-2 font-bold text-purple-300>\1</div>', 
+     ..., Input Mode: text
+2025-08-05 20:46:30,398 - INFO - History saved successfully.
+2025-08-05 20:46:30,398 - INFO - Successfully processed Code Debugger request. Final response length: 2048.
+2025-08-05 20:46:30,398 - INFO - 127.0.0.1 - - [05/Aug/2025 20:46:30] "POST /api/process HTTP/1.1" 200 -
+2025-08-05 20:47:20,842 - INFO - File uploaded successfully: Raju's resume (1) (1).pdf
+2025-08-05 20:47:21,161 - INFO - Text extracted from resume file: Raju's resume (1) (1).pdf
+2025-08-05 20:47:21,162 - INFO - 127.0.0.1 - - [05/Aug/2025 20:47:21] "POST /api/upload HTTP/1.1" 200 -
+2025-08-05 20:47:22,677 - INFO - Processing request - Mode: resume, Query: ..., Input Mode: text
+2025-08-05 20:47:24,472 - INFO - History saved successfully.
+2025-08-05 20:47:24,472 - INFO - Successfully processed Resume Analyzer request. Final response length: 261.
+2025-08-05 20:47:24,472 - INFO - 127.0.0.1 - - [05/Aug/2025 20:47:24] "POST /api/process HTTP/1.1" 200 -
+2025-08-05 20:47:40,244 - INFO - Processing request - Mode: resume, Query: tell me the key points..., Input Mode: text
+2025-08-05 20:47:44,609 - INFO - History saved successfully.
+2025-08-05 20:47:44,609 - INFO - Successfully processed Resume Analyzer request. Final response length: 2432.
+2025-08-05 20:47:44,609 - INFO - 127.0.0.1 - - [05/Aug/2025 20:47:44] "POST /api/process HTTP/1.1" 200 -
+2025-08-05 21:02:42,204 - INFO - Google Generative AI configured successfully with free tier.
+2025-08-05 21:02:42,205 - INFO - Audio features disabled for web deployment.
+2025-08-05 21:02:42,205 - INFO - Gemini GenerativeModel and chat initialized with free tier settings.
+2025-08-05 21:02:42,205 - INFO - TRON Assistant initialized successfully.
+2025-08-05 21:02:42,212 - INFO - Starting TRON Assistant Flask server...
+2025-08-05 21:02:42,212 - INFO - Server will be accessible on port: 10000
+2025-08-05 21:02:42,218 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:10000
+ * Running on http://10.56.105.128:10000
+2025-08-05 21:02:42,218 - INFO - [33mPress CTRL+C to quit[0m
+2025-08-05 21:03:50,733 - INFO - Serving index.html
+2025-08-05 21:03:50,795 - INFO - 127.0.0.1 - - [05/Aug/2025 21:03:50] "[36mGET / HTTP/1.1[0m" 304 -
+2025-08-05 21:03:51,035 - INFO - 127.0.0.1 - - [05/Aug/2025 21:03:51] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 204 -
+2025-08-05 21:03:52,026 - INFO - 127.0.0.1 - - [05/Aug/2025 21:03:52] "GET /api/status HTTP/1.1" 200 -
+2025-08-05 21:05:26,252 - INFO - Processing request - Mode: quiz, Query: quiz on ai..., Input Mode: text
+2025-08-05 21:05:31,027 - INFO - Processing request - Mode: quiz, Query: quiz on ai..., Input Mode: text
+2025-08-05 21:05:31,498 - INFO - History saved successfully.
+2025-08-05 21:05:31,500 - INFO - Successfully processed Quiz Generator request. Final response length: 1917.
+2025-08-05 21:05:31,500 - INFO - 127.0.0.1 - - [05/Aug/2025 21:05:31] "POST /api/process HTTP/1.1" 200 -
+2025-08-05 21:05:34,446 - INFO - History saved successfully.
+2025-08-05 21:05:34,462 - INFO - Successfully processed Quiz Generator request. Final response length: 1601.
+2025-08-05 21:05:34,462 - INFO - 127.0.0.1 - - [05/Aug/2025 21:05:34] "POST /api/process HTTP/1.1" 200 -
+2025-08-05 21:06:09,095 - INFO - Processing request - Mode: doubt, Query: explain about ai..., Input Mode: text
+2025-08-05 21:06:11,959 - INFO - History saved successfully.
+2025-08-05 21:06:11,959 - INFO - Successfully processed Doubt Solver request. Final response length: 1343.
+2025-08-05 21:06:11,975 - INFO - 127.0.0.1 - - [05/Aug/2025 21:06:11] "POST /api/process HTTP/1.1" 200 -
+2025-08-05 21:09:21,151 - INFO - Processing request - Mode: code, Query: fallback_content = re.sub(r'^\* (.+)', r<div class="mt-2 font-bold text-purple-300>\1</div>', 
+     ..., Input Mode: text
+2025-08-05 21:09:26,049 - INFO - History saved successfully.
+2025-08-05 21:09:26,049 - INFO - Successfully processed Code Debugger request. Final response length: 2298.
+2025-08-05 21:09:26,050 - INFO - 127.0.0.1 - - [05/Aug/2025 21:09:26] "POST /api/process HTTP/1.1" 200 -
+2025-08-05 21:10:55,700 - INFO - File uploaded successfully: Raju's resume (1) (1).pdf
+2025-08-05 21:10:56,033 - INFO - Text extracted from resume file: Raju's resume (1) (1).pdf
+2025-08-05 21:10:56,033 - INFO - 127.0.0.1 - - [05/Aug/2025 21:10:56] "POST /api/upload HTTP/1.1" 200 -
+2025-08-05 21:10:57,557 - INFO - Processing request - Mode: resume, Query: ..., Input Mode: text
+2025-08-05 21:10:58,838 - INFO - History saved successfully.
+2025-08-05 21:10:58,854 - INFO - Successfully processed Resume Analyzer request. Final response length: 114.
+2025-08-05 21:10:58,854 - INFO - 127.0.0.1 - - [05/Aug/2025 21:10:58] "POST /api/process HTTP/1.1" 200 -
+2025-08-05 21:11:20,572 - INFO - Processing request - Mode: resume, Query: analyse it..., Input Mode: text
+2025-08-05 21:11:26,059 - INFO - History saved successfully.
+2025-08-05 21:11:26,059 - INFO - Successfully processed Resume Analyzer request. Final response length: 3289.
+2025-08-05 21:11:26,059 - INFO - 127.0.0.1 - - [05/Aug/2025 21:11:26] "POST /api/process HTTP/1.1" 200 -
+2025-08-05 21:12:11,200 - INFO - History loaded: 20 entries.
+2025-08-05 21:12:11,208 - INFO - 127.0.0.1 - - [05/Aug/2025 21:12:11] "GET /api/history HTTP/1.1" 200 -

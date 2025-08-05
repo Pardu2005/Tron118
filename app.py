@@ -394,88 +394,281 @@ class TRONAssistant:
 
     def _format_explanation_content(self, content: str) -> str:
         try:
-            content = re.sub(r'\*\*(.*?)\*\*', r'<strong class="text-purple-300">\1</strong>', content)
-            content = re.sub(r'\*(.*?)\*', r'<em class="text-purple-200">\1</em>', content)
+            # Step 1: Handle **bold text** patterns first (including standalone headings)
+            content = re.sub(r'\*\*(.*?)\*\*',
+                             r'<div class="clean-heading text-purple-300 font-bold mt-4 mb-2">\1</div>', content)
+
+            # Step 2: Handle *italic text* patterns (but not single asterisks used for bullets)
+            content = re.sub(r'(?<!\w)\*([^*\n]+?)\*(?!\w)', r'<em class="text-purple-200">\1</em>', content)
+
+            # Step 3: Clean up bullet points - convert "* " at start of lines to clean headings
+            lines = content.split('\n')
+            formatted_lines = []
+
+            for line in lines:
+                stripped_line = line.strip()
+
+                # Check if this is a bullet point line
+                if stripped_line.startswith('* '):
+                    # Remove the bullet and format as a clean heading
+                    clean_text = stripped_line[2:].strip()  # Remove "* "
+                    # Check if it ends with a colon (likely a heading)
+                    if clean_text.endswith(':'):
+                        formatted_lines.append(
+                            f'<div class="clean-heading text-purple-300 font-bold mt-4 mb-2">{clean_text}</div>')
+                    else:
+                        formatted_lines.append(
+                            f'<div class="clean-heading text-purple-300 font-bold mt-3 mb-1">{clean_text}</div>')
+                elif stripped_line:
+                    formatted_lines.append(line)
+
+            content = '\n'.join(formatted_lines)
+
+            # Step 4: Handle inline code
             content = re.sub(r'`(.*?)`', r'<code class="bg-gray-700 px-2 py-1 rounded text-purple-200">\1</code>',
                              content)
-            content = re.sub(r'^- (.+)$', r'<li><p>\1</p></li>', content, flags=re.MULTILINE)
-            if '<li>' in content:
-                content = f'<ul class="list-disc list-inside mt-3 text-gray-200">{content}</ul>'
+
+            # Step 5: Split into paragraphs and format remaining content
             content_parts = content.split('\n\n')
             paragraphs = []
+
             for p in content_parts:
-                if p.strip():
+                if p.strip() and not 'clean-heading' in p:
                     safe_p = p.replace("\n", "<br>")
                     paragraphs.append(f'<p class="mt-3 text-gray-200">{safe_p}</p>')
+                elif p.strip():
+                    paragraphs.append(p)
+
             return ''.join(paragraphs)
+
         except Exception as e:
             logger.error(f"Error formatting explanation content: {e}", exc_info=True)
-            return content.replace('\n', '<br>')
+            # Fallback: clean up all asterisks and format as simple paragraphs
+            fallback_content = re.sub(r'\*\*(.*?)\*\*', r'<strong>\1</strong>', content)  # Remove **bold**
+            fallback_content = re.sub(r'^\* (.+)', r'<div class="mt-2 font-bold text-purple-300">\1</div>',
+                                      fallback_content, flags=re.MULTILINE)  # Clean bullet points
+
+            return f'<div class="text-gray-200">{fallback_content.replace(chr(10), "<br>")}</div>'
 
     def _format_code_content(self, content: str) -> str:
-        lines = content.split('\n')
-        formatted_lines = []
-        in_code_block = False
+        try:
+            # Step 1: Handle **bold text** patterns first
+            content = re.sub(r'\*\*(.*?)\*\*',
+                             r'<div class="code-heading text-red-300 font-bold mt-4 mb-2">\1</div>',
+                             content)
 
-        for line in lines:
-            line_strip = line.strip()
-            if line_strip.startswith('```'):
+            # Step 2: Clean up any remaining single asterisks used for bullet points
+            content = re.sub(r'^\* (.+)', r'<div class="code-bullet ml-4 mt-2 text-gray-200">• \1</div>',
+                             content, flags=re.MULTILINE)
+
+            # Step 3: Remove any stray symbols that might be causing issues
+            # Remove siren symbols and other unwanted characters
+            content = re.sub(r'🚨\s*', '', content)  # Remove siren emoji
+            content = re.sub(r'⚠️\s*', '', content)  # Remove warning emoji
+            content = re.sub(r'[🔴🟠🟡]\s*', '', content)  # Remove colored circles
+            content = re.sub(r'[\u2600-\u26FF\u2700-\u27BF]\s*', '', content)  # Remove misc symbols
+
+            lines = content.split('\n')
+            formatted_lines = []
+            in_code_block = False
+
+            for line in lines:
+                line_strip = line.strip()
+
+                # Handle code blocks
+                if line_strip.startswith('```'):
+                    if in_code_block:
+                        formatted_lines.append('</code></pre>')
+                        in_code_block = False
+                    else:
+                        lang = line_strip[3:].strip()
+                        lang_class = f'language-{lang}' if lang else ''
+                        formatted_lines.append(
+                            f'<pre class="bg-gray-900 p-3 rounded border border-red-500 mt-3 overflow-auto"><code class="text-red-200 {lang_class}">'
+                        )
+                        in_code_block = True
+                    continue
+
+                # If we're inside a code block, just add the line
                 if in_code_block:
-                    formatted_lines.append('</code></pre>')
-                    in_code_block = False
-                else:
-                    lang = line_strip[3:].strip()
-                    lang_class = f'language-{lang}' if lang else ''
+                    formatted_lines.append(f'{line}\n')
+                    continue
+
+                # Skip empty lines
+                if not line_strip:
+                    continue
+
+                # Handle lines that already have code-heading class
+                if 'code-heading' in line or 'code-bullet' in line:
+                    formatted_lines.append(line)
+                    continue
+
+                # Format different types of content based on keywords
+                line_lower = line_strip.lower()
+
+                # Error/Problem identification
+                if any(keyword in line_lower for keyword in
+                       ['error', 'bug', 'issue', 'problem', 'wrong', 'incorrect', 'fails', 'broken']):
                     formatted_lines.append(
-                        f'<pre class="bg-gray-900 p-3 rounded border border-red-500 mt-3 overflow-auto"><code class="text-red-200 {lang_class}">')
-                    in_code_block = True
-                continue
+                        '<div class="error-highlight p-3 bg-red-800 bg-opacity-50 rounded border border-red-500 mt-3">'
+                    )
+                    formatted_lines.append(f'<strong class="text-red-300">❌ Problem Identified:</strong>')
+                    formatted_lines.append(f'<p class="text-gray-200 mt-1">{line_strip}</p>')
+                    formatted_lines.append('</div>')
+
+                # Solution/Fix suggestions
+                elif any(keyword in line_lower for keyword in
+                         ['solution', 'fix', 'correct', 'resolve', 'should', 'replace', 'change']):
+                    formatted_lines.append(
+                        '<div class="solution-highlight p-3 bg-green-800 bg-opacity-50 rounded border border-green-500 mt-3">'
+                    )
+                    formatted_lines.append(f'<strong class="text-green-300">✅ Solution:</strong>')
+                    formatted_lines.append(f'<p class="text-gray-200 mt-1">{line_strip}</p>')
+                    formatted_lines.append('</div>')
+
+                # Optimization suggestions
+                elif any(keyword in line_lower for keyword in
+                         ['optimize', 'improve', 'better', 'recommend', 'suggest', 'enhancement']):
+                    formatted_lines.append(
+                        '<div class="optimization-highlight p-3 bg-blue-800 bg-opacity-50 rounded border border-blue-500 mt-3">'
+                    )
+                    formatted_lines.append(f'<strong class="text-blue-300">🔧 Optimization:</strong>')
+                    formatted_lines.append(f'<p class="text-gray-200 mt-1">{line_strip}</p>')
+                    formatted_lines.append('</div>')
+
+                # Warning/Caution
+                elif any(keyword in line_lower for keyword in
+                         ['warning', 'caution', 'careful', 'note', 'important', 'attention']):
+                    formatted_lines.append(
+                        '<div class="warning-highlight p-3 bg-yellow-800 bg-opacity-50 rounded border border-yellow-500 mt-3">'
+                    )
+                    formatted_lines.append(f'<strong class="text-yellow-300">⚠️ Important Note:</strong>')
+                    formatted_lines.append(f'<p class="text-gray-200 mt-1">{line_strip}</p>')
+                    formatted_lines.append('</div>')
+
+                # Code explanation or analysis
+                elif any(keyword in line_lower for keyword in
+                         ['code', 'function', 'method', 'class', 'variable', 'syntax']):
+                    formatted_lines.append(
+                        '<div class="code-analysis p-2 bg-gray-700 bg-opacity-50 rounded border border-gray-500 mt-2">'
+                    )
+                    formatted_lines.append(f'<span class="text-gray-300">📝 {line_strip}</span>')
+                    formatted_lines.append('</div>')
+
+                # Regular text
+                else:
+                    formatted_lines.append(f'<p class="text-gray-200 mt-2 leading-relaxed">{line_strip}</p>')
+
+            # Close any open code block
             if in_code_block:
-                formatted_lines.append(f'{line}\n')
-            else:
-                if any(keyword in line.lower() for keyword in ['error', 'bug', 'issue', 'problem', 'fix']):
-                    formatted_lines.append(
-                        '<div class="error-solution-highlight p-2 bg-red-800 bg-opacity-50 rounded border border-red-500 mt-2">')
-                    formatted_lines.append(f'<strong class="text-red-300">🚨 {line}</strong>')
-                    formatted_lines.append('</div>')
-                elif any(keyword in line.lower() for keyword in ['solution', 'correct', 'optim', 'recommend']):
-                    formatted_lines.append(
-                        '<div class="solution-highlight p-2 bg-green-800 bg-opacity-50 rounded border border-green-500 mt-2">')
-                    formatted_lines.append(f'<strong class="text-green-300">✅ {line}</strong>')
-                    formatted_lines.append('</div>')
-                else:
-                    formatted_lines.append(f'<p class="text-gray-200 mt-2">{line}</p>')
-        if in_code_block:
-            formatted_lines.append('</code></pre>')
-        return ''.join(formatted_lines)
+                formatted_lines.append('</code></pre>')
+
+            return ''.join(formatted_lines)
+
+        except Exception as e:
+            logger.error(f"Error formatting code content: {e}", exc_info=True)
+            # Fallback: Clean up symbols and asterisks
+            fallback_content = re.sub(r'\*\*(.*?)\*\*', r'<strong class="text-red-300">\1</strong>', content)
+            fallback_content = re.sub(r'^\* (.+)', r'<div class="mt-2 ml-4 text-gray-200">• \1</div>',
+                                      fallback_content, flags=re.MULTILINE)
+            # Remove unwanted symbols
+            fallback_content = re.sub(r'[🚨⚠️🔴🟠🟡]\s*', '', fallback_content)
+            fallback_content = re.sub(r'[\u2600-\u26FF\u2700-\u27BF]\s*', '', fallback_content)
+
+            return f'<div class="code-content">{fallback_content.replace(chr(10), "<br>")}</div>'
 
     def _format_resume_content(self, content: str) -> str:
-        lines = content.split('\n')
-        formatted_lines = []
+        try:
+            # Step 1: Handle **bold headings** first (convert to proper headings)
+            content = re.sub(r'\*\*(.*?)\*\*',
+                             r'<div class="section-heading text-yellow-300 font-bold text-lg mt-4 mb-3 border-b border-yellow-600 pb-1">\1</div>',
+                             content)
 
-        for line in lines:
-            line = line.strip()
-            if not line:
-                continue
-            if any(keyword in line.lower() for keyword in ['score', 'rating', '/10', '%']):
-                formatted_lines.append(
-                    '<div class="score-section p-3 bg-yellow-800 bg-opacity-50 rounded border border-yellow-500 mt-3">')
-                formatted_lines.append(f'<strong class="text-yellow-300">📊 {line}</strong>')
-                formatted_lines.append('</div>')
-            elif any(keyword in line.lower() for keyword in ['strength', 'good', 'excellent', 'strong']):
-                formatted_lines.append(
-                    '<div class="strength-item p-2 bg-green-800 bg-opacity-30 rounded border border-green-600 mt-2">')
-                formatted_lines.append(f'<span class="text-green-300">✅ {line}</span>')
-                formatted_lines.append('</div>')
-            elif any(keyword in line.lower() for keyword in ['improve', 'weak', 'lacking', 'missing']):
-                formatted_lines.append(
-                    '<div class="improvement-item p-2 bg-orange-800 bg-opacity-30 rounded border border-orange-600 mt-2">')
-                formatted_lines.append(f'<span class="text-orange-300">📈 {line}</span>')
-                formatted_lines.append('</div>')
-            else:
-                formatted_lines.append(f'<p class="text-gray-200 mt-2">{line}</p>')
-        return ''.join(formatted_lines)
+            # Step 2: Handle single * bullet points and convert to clean format
+            lines = content.split('\n')
+            formatted_lines = []
 
+            for line in lines:
+                stripped_line = line.strip()
+
+                # Skip empty lines
+                if not stripped_line:
+                    continue
+
+                # Handle bullet points that start with "* **"
+                if stripped_line.startswith('* **') and stripped_line.endswith('**'):
+                    # Extract the heading text between ** **
+                    heading_match = re.match(r'\* \*\*(.*?)\*\*(.*)', stripped_line)
+                    if heading_match:
+                        heading_text = heading_match.group(1).strip()
+                        remaining_text = heading_match.group(2).strip()
+                        formatted_lines.append(
+                            f'<div class="subsection-heading text-yellow-400 font-semibold mt-3 mb-2">📋 {heading_text}</div>'
+                        )
+                        if remaining_text:
+                            formatted_lines.append(f'<p class="text-gray-200 ml-4">{remaining_text}</p>')
+                    continue
+
+                # Handle regular bullet points that start with "*"
+                elif stripped_line.startswith('* '):
+                    bullet_text = stripped_line[2:].strip()  # Remove "* "
+
+                    # Check if this line contains specific keywords for special formatting
+                    if any(keyword in bullet_text.lower() for keyword in ['score', 'rating', '/10', '%', 'overall']):
+                        formatted_lines.append(
+                            '<div class="score-section p-3 bg-yellow-800 bg-opacity-50 rounded border border-yellow-500 mt-3">'
+                        )
+                        formatted_lines.append(f'<strong class="text-yellow-300">📊 {bullet_text}</strong>')
+                        formatted_lines.append('</div>')
+
+                    elif any(keyword in bullet_text.lower() for keyword in
+                             ['strength', 'good', 'excellent', 'strong', 'experience', 'expertise']):
+                        formatted_lines.append(
+                            '<div class="strength-item p-2 bg-green-800 bg-opacity-30 rounded border border-green-600 mt-2 ml-4">'
+                        )
+                        formatted_lines.append(f'<span class="text-green-300">✅ {bullet_text}</span>')
+                        formatted_lines.append('</div>')
+
+                    elif any(keyword in bullet_text.lower() for keyword in
+                             ['improve', 'weak', 'lacking', 'missing', 'recommend', 'suggest']):
+                        formatted_lines.append(
+                            '<div class="improvement-item p-2 bg-orange-800 bg-opacity-30 rounded border border-orange-600 mt-2 ml-4">'
+                        )
+                        formatted_lines.append(f'<span class="text-orange-300">📈 {bullet_text}</span>')
+                        formatted_lines.append('</div>')
+
+                    else:
+                        # Regular bullet point
+                        formatted_lines.append(
+                            f'<div class="bullet-point ml-4 mt-2 text-gray-200">• {bullet_text}</div>'
+                        )
+
+                # Handle lines that already have section-heading class (from **bold** conversion)
+                elif 'section-heading' in line:
+                    formatted_lines.append(line)
+
+                # Handle regular text paragraphs
+                else:
+                    # Check for special content in regular paragraphs
+                    if any(keyword in stripped_line.lower() for keyword in ['score', 'rating', '/10', '%']):
+                        formatted_lines.append(
+                            '<div class="score-section p-3 bg-yellow-800 bg-opacity-50 rounded border border-yellow-500 mt-3">'
+                        )
+                        formatted_lines.append(f'<strong class="text-yellow-300">📊 {stripped_line}</strong>')
+                        formatted_lines.append('</div>')
+                    else:
+                        formatted_lines.append(f'<p class="text-gray-200 mt-2 leading-relaxed">{stripped_line}</p>')
+
+            return ''.join(formatted_lines)
+
+        except Exception as e:
+            logger.error(f"Error formatting resume content: {e}", exc_info=True)
+            # Fallback: Clean up asterisks and format as simple content
+            fallback_content = re.sub(r'\*\*(.*?)\*\*', r'<strong class="text-yellow-300">\1</strong>', content)
+            fallback_content = re.sub(r'^\* (.+)', r'<div class="mt-2 ml-4 text-gray-200">• \1</div>',
+                                      fallback_content, flags=re.MULTILINE)
+
+            return f'<div class="resume-content">{fallback_content.replace(chr(10), "<br>")}</div>'
 
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS

@@ -5,6 +5,49 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TRON Assistant</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom styles to remove bullets and fix formatting */
+        .response-content ul {
+            list-style: none !important;
+            padding-left: 0 !important;
+            margin-left: 0 !important;
+        }
+
+        .response-content li {
+            list-style: none !important;
+            padding-left: 0 !important;
+            margin-left: 0 !important;
+            position: relative;
+        }
+
+        .response-content li::before {
+            content: none !important;
+        }
+
+        /* Ensure clean heading formatting */
+        .clean-heading {
+            display: block;
+            margin: 8px 0;
+            padding: 0;
+            font-weight: bold;
+            color: #a855f7; /* purple-500 */
+        }
+
+        /* Remove any default list styling from prose */
+        .prose ul {
+            list-style: none !important;
+            padding-left: 0 !important;
+        }
+
+        .prose li {
+            list-style: none !important;
+            padding-left: 0 !important;
+        }
+
+        .prose li::before {
+            content: none !important;
+        }
+    </style>
 </head>
 <body class="bg-gray-900 text-white min-h-screen flex flex-col">
     <header class="bg-gray-800 p-4 flex justify-between items-center">
@@ -91,7 +134,7 @@
                 </div>
             </div>
 
-            <div id="response-output" class="p-4 border border-gray-600 rounded">
+            <div id="response-output" class="p-4 border border-gray-600 rounded response-content">
                 <h3 class="text-lg font-semibold mb-2">AI Response Output</h3>
                 <div class="text-gray-300">
                     <div class="bg-gray-800 p-4 rounded border border-blue-500">
